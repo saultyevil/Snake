@@ -1,0 +1,73 @@
+/* ***************************************************************************
+ *
+ * @file
+ *
+ * @author
+ *
+ * @brief
+ *
+ * @details
+ *
+ * ************************************************************************** */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
+
+#include "snake.h"
+
+
+void Exit (int error_code, char *fmt, ...)
+{
+  va_list arg_list;
+
+  va_start (arg_list, fmt);
+
+  printf ("\n--------------------------------------------------------------\n\n");
+  printf ("\tERROR: ");
+  vprintf (fmt, arg_list);
+  printf ("\t       Exiting with error code %i\n", error_code);
+  printf ("\n--------------------------------------------------------------\n");
+
+  va_end (arg_list);
+  exit (error_code);
+}
+
+int Log (char *fmt, ...)
+{
+  va_list arg_list;
+
+  va_start (arg_list, fmt);
+  vprintf (fmt, arg_list);
+  va_end (arg_list);
+  
+  return EXIT;
+}
+
+int Log_verbose (char *fmt, ...)
+{
+  if (VERBOSITY == TRUE)
+  {
+    va_list arg_list;
+    
+    va_start (arg_list, fmt);
+    vprintf (fmt, arg_list);
+    va_end (arg_list);
+  
+    return EXIT;
+  }
+  else
+    return EXIT;
+}
+
+int Log_error (char *fmt, ...)
+{
+  va_list arg_list;
+  
+  va_start (arg_list, fmt);
+  printf ("ERROR: ");
+  vprintf (fmt, arg_list);
+  va_end (arg_list);
+  
+  return EXIT;
+}

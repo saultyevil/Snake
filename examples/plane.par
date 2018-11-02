@@ -1,0 +1,15 @@
+## 1d Plane Simulation
+# General parameters
+n_photons :: 1e6
+output_freq :: 1e5
+rad_lum :: 1e6
+seed :: 34875324
+write_grid :: 1
+
+# Grid parameters
+geo_type :: planar
+nx_cells :: 10
+x_max :: 1.0
+tau_max :: 15.0
+scat_albedo :: 1.0
+rho_exp :: -2.0
