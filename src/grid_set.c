@@ -11,7 +11,6 @@
  * ************************************************************************** */
 
 #include <math.h>
-#include <string.h>
 #include <stdlib.h>
 
 #include "snake.h"
@@ -19,7 +18,6 @@
 int init_grid (void)
 {
   int i;
-
   int write_grid = FALSE;
 
   get_grid_params ();
@@ -40,8 +38,9 @@ int init_grid (void)
   if (write_grid)
   {
     Log ("\t\t- Writing grid to file\n");
-    write_grid_to_file ("opacity_grid.txt");
+    write_grid_to_file ();
   }
+
   return EXIT;
 }
 
@@ -70,7 +69,6 @@ int allocate_1d_grid (void)
 
   if (!(grid = calloc (geo.nx_cells, sizeof (*grid))))
     Exit (3, "Could not allocate memory for grid of size %li\n", mem_req);
-
   Log ("\t\t- Allocated %1.2e bytes for %1.2e grid cells\n", (double) mem_req,
        (double) geo.nx_cells);
 

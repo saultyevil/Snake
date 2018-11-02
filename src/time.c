@@ -14,7 +14,7 @@
 
 #include "snake.h"
 
-int print_time (void)
+int print_time_date (void)
 {
   char *c_time_string;
   time_t current_time;
@@ -43,7 +43,7 @@ int print_duration (struct timespec start_time, char *message)
 
   clock_gettime (CLOCK_PROCESS_CPUTIME_ID, &end_time);
   td = (end_time.tv_sec - start_time.tv_sec) +
-    (end_time.tv_nsec - start_time.tv_nsec) / 1e9;
+                                  (end_time.tv_nsec - start_time.tv_nsec) / 1e9;
   Log ("%s ", message);
   Log ("%f seconds\n", td);
 

@@ -18,7 +18,7 @@
 int eddington_iterations (void)
 {
   int n_iters = 0;
-  int converged = 0;
+  int converged = FALSE;
   struct timespec edd_start;
 
   Log (" - Beginning Eddington iterations\n");
@@ -33,7 +33,7 @@ int eddington_iterations (void)
   {
     n_iters++;
     if (n_iters == 10)
-      converged = 1;
+      converged = TRUE;
     if (!(n_iters % PROGRESS_OUT_FREQ))
       Log ("\t\t* %4i iterations complete\n", n_iters);
   }

@@ -35,7 +35,8 @@ int init_grid (void);
  * output.c
  */
 
-int write_grid_to_file (char *filename);
+int init_filenames (void);
+int write_grid_to_file (void);
 
 /*
  * read_pars.c
@@ -63,7 +64,7 @@ int init_geo (void);
  * time.c
  */
 
-int print_time (void);
+int print_time_date (void);
 struct timespec get_time (void);
 int print_duration (struct timespec start_time, char *message);
 
@@ -73,7 +74,5 @@ int print_duration (struct timespec start_time, char *message);
 
 void Exit (int error_code, char *fmt, ...);
 int Log (char *fmt, ...);
-int Log_parallel (char *fmt, ...);
 int Log_verbose (char *fmt, ...);
 int Log_error (char *fmt, ...);
-double min_double (int n, ...);

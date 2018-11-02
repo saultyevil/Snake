@@ -57,4 +57,13 @@ typedef struct Grid
 
 Grid *grid;
 
+typedef struct File_names
+{
+  char gDensity[LINE_LEN];
+  char gOpacity[LINE_LEN];
+  char gTemperature[LINE_LEN];
+} File_names;
+
+File_names file_names;
+
 #include "functions.h"
