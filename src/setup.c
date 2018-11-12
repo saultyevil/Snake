@@ -27,6 +27,16 @@ int init_geo (void)
     Exit (2, "Invalid value for output_freq: output_freq > 0\n");
 
   /*
+   * Get the mass fractions
+   */
+
+  get_double ("X", &geo.X);
+  get_double ("Z", &geo.Z);
+  if (geo.X + geo.Z > 1)
+    Exit (2, "Invalid choice for X =%f or Z = %f. X + Z <= 1.0", geo.X, geo.Z);
+  geo.Y = 1.0 - geo.X - geo.Z;
+  
+  /*
    * Get the grid and model types sand call the appropriate grid initialisation
    * routine
    */

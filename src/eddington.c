@@ -11,9 +11,11 @@
  * ************************************************************************** */
 
 #include <time.h>
+#include <math.h>
 #include <stdio.h>
 
 #include "snake.h"
+#include "flib.h"
 
 int eddington_iterations (void)
 {
@@ -28,14 +30,17 @@ int eddington_iterations (void)
 
   while (!converged && n_iters < MAX_ITER)
   {
-    n_iters++;
-    get_rosseland_opac ();
+    update_cell_opacities ();
+    find_vertical_tau ();
+    update_cell_temperatures ();
 
     if (report_convergence () >= 0.9)
       converged = TRUE;
 
     if (!(n_iters % PROGRESS_OUT_FREQ))
-      Log ("\t\t* %4i iterations complete\n", n_iters);
+      Log ("\t\t- %3i iterations complete\n", n_iters + 1);
+
+    n_iters++;
   }
 
   if (n_iters == MAX_ITER)
@@ -47,23 +52,33 @@ int eddington_iterations (void)
   return SUCCESS;
 }
 
-// Pretend this is clean and nice to look at
-int get_rosseland_opac (void)
+int update_cell_opacities (void)
 {
   int i;
-  float z, xh, t6, r;
-  z = 0.02;
-  xh = 0.74;
+  float Z, X, T, R;
+
+  X = (float) geo.X;
+  Z = (float) geo.Z;
 
   for (i = 0; i < geo.nx_cells; i++)
   {
-    t6 = grid[i].T/1e6;
-    r = grid[i].rho;
-    opacgn93_ (&z, &xh, &t6, &r);
-    grid[i].kappa = e_.opact;
+    T = (float) (grid[i].T / 1e6);
+    R = (float) (grid[i].rho / pow (T, 3.0));
+
+    opacgn93_ (&Z, &X, &T, &R);
+
+    grid[i].kappa = pow (10.0, (double) e_.opact);
   }
 
-  write_grid_to_file ();
+  return SUCCESS;
+}
 
+int find_vertical_tau (void)
+{
+  return SUCCESS;
+}
+
+int update_cell_temperatures (void)
+{
   return SUCCESS;
 }

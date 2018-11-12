@@ -28,8 +28,12 @@ int init_default_pars (void)
 
   strcpy (geo.geo_type, PLANAR);
   geo.nx_cells = 100;
-  geo.x_max = 1.0;
-  geo.t_star = 4e4;
+  geo.x_max = 1e12;
+  geo.t_star = 1e5;
+  geo.irho = 1e-5;
+  geo.X = 0.74;  // mass fractions for hydrogen X, helium Y and metals Z
+  geo.Z = 0.02;
+  geo.Y = 1.0 - geo.X - geo.Y;
 
   return SUCCESS;
 }

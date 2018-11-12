@@ -19,6 +19,7 @@ int main (int argc, char **argv)
 {
   struct timespec start_time;
   char par_file_path[LINE_LEN];
+  char grid_out_dir[LINE_LEN];
   int verbosity = FALSE;
 
   start_time = get_time ();
@@ -70,9 +71,12 @@ int main (int argc, char **argv)
   eddington_iterations ();
 
   /*
-   * Now we will plot the output
+   * Output the results to file
    */
 
+  strcpy (grid_out_dir, "grid_out");
+  Log (" - Writing converged grid into the directory %s\n", grid_out_dir);
+  write_grid_to_file (grid_out_dir);
 
   Log ("\n--------------------------------------------------------------\n\n");
   print_duration (start_time, "Simulation completed in");

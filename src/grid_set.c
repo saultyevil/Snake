@@ -30,16 +30,16 @@ int init_grid (void)
     grid[i].n = i;
     grid[i].x = (i + 1) * geo.hx;
     grid[i].T = grid[i].T_old = geo.t_star;
-    grid[i].rho = 1e-4;  // TODO: clean this up -- i.e. make it work :^)
+    grid[i].rho = geo.irho;  // TODO: update from uniform density
   }
 
-  get_optional_int ("write_grid", &write_grid);
+  get_optional_int ("extra_grid_out", &write_grid);
   if (write_grid != FALSE && write_grid != TRUE)
     Log_error ("Invalid value for write_grid: write_grid is either 0 or 1\n");
   if (write_grid)
   {
-    Log ("\t\t- Writing grid to file\n");
-    write_grid_to_file ();
+    Log ("\t\t- Writing initial grid to file\n");
+    write_grid_to_file ("init_grid");
   }
 
   return SUCCESS;
@@ -56,6 +56,9 @@ int get_grid_params (void)
   get_double ("t_star", &geo.t_star);
   if (geo.t_star < 0)
     Exit (2, "Invalid value for t_star: t_star >= 0\n");
+  get_double ("irho", &geo.irho);
+  if (geo.irho < 0)
+    Exit (2, "Invalid value for irho: irho >= 0\n");
 
   geo.hx = geo.x_max / geo.nx_cells;
 

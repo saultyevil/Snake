@@ -36,7 +36,7 @@ void Exit (int error_code, char *fmt, ...)
   printf ("\n--------------------------------------------------------------\n\n");
   printf ("\tFAILURE: ");
   vprintf (fmt, arg_list);
-  printf ("\t       Exiting with error code %i\n", error_code);
+  printf ("\t         Exiting with error code %i\n", error_code);
   printf ("\n--------------------------------------------------------------\n");
 
   va_end (arg_list);

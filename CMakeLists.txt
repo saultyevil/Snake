@@ -1,7 +1,7 @@
 # TODO: make this work with Fortran and C code
 
 cmake_minimum_required(VERSION 3.10)
-project(Snake C)
+project(Snake C Fortran)
 
 set(CMAKE_C_STANDARD 99)
 add_executable(snake

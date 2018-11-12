@@ -40,8 +40,10 @@ typedef struct Geometry
   char geo_type[LINE_LEN];
   int nx_cells;
   double t_star;
+  double irho;
   double hx;
   double x_max;
+  double X, Y, Z;
 } Geometry;
 
 Geometry geo;
@@ -58,14 +60,18 @@ typedef struct Grid
 
 Grid *grid;
 
+/*
+ * Note that filenames are set in the file output.c in the function
+ * int init_filenames (void).
+ */
+
 typedef struct File_names
 {
-  char gDensity[LINE_LEN];
-  char gOpacity[LINE_LEN];
-  char gTemperature[LINE_LEN];
+  char grid_density[LINE_LEN];
+  char grid_opacity[LINE_LEN];
+  char grid_temperature[LINE_LEN];
 } File_names;
 
 File_names file_names;
 
 #include "functions.h"
-#include "flib.h"

@@ -4,6 +4,8 @@
 
 **Currently a WIP...**
 
+**!!!!ALART!!!! Currently doesn't seem to work on my MacBook using gfortran-8**
+
 The purpose of this code is to test the performance of using the [Eddington approximation](https://en.wikipedia.org/wiki/Radiative_transfer#The_Eddington_approximation) to estimate the physical conditions in cells within the optically thick limit.
 
 The idea is that for cells in the optically thick limit, the physical conditions will be approximated by iterating towards final conditions using the Eddington approximation. However, cells in the optically thin limit will have their physical conditions approximated using Monte Carlo Radiative Transfer (MCRT). This *should* create a hybrid scheme which will allow better treatment of optically thick regions in MCRT simulations. To determine the Rosseland mean opacity of grid cells, the Opal Opacity Code is used, which can be found [here](https://opalopacity.llnl.gov/). 

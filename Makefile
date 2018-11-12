@@ -1,6 +1,6 @@
 # Helpful macros
 TARGET_EXEC ?= snake
-OBJ_DIR ?= ./src/objs
+OBJ_DIR ?= ./objs
 SRC_DIR ?= ./src
 BIN_DIR ?= ./bin
 
@@ -9,8 +9,8 @@ CC = gcc
 FC = gfortran
 CFLAGS = -pedantic -Wall -O2
 CLIBS = -lm
-FFLAGS = 
-FLIBS = 
+FFLAGS =
+FLIBS =
 
 # Useful macros
 MKDIR_P ?= mkdir -p
@@ -23,14 +23,16 @@ OBJS := $(SRCS:%=$(OBJ_DIR)/%.o)
 $(TARGET_EXEC): $(OBJS)
 	$(FC) $(FFLAGS) $(OBJS) -o $@
 	$(MKDIR_P) $(BIN_DIR)
+	cp $@ $(OBJ_DIR)/$@
 	mv $@ $(BIN_DIR)/$@
 
-# Create object files: note that the C and F object files are created separately 
+# Create object files: note that the C and F object files are created separately
 $(OBJ_DIR)/%.c.o: %.c
 	$(MKDIR_P) $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/%.f.o: %.f
+	$(MKDIR_P) $(dir $@)
 	$(FC) $(FFLAGS) $(FLIBS) -c $< -o $@
 
 # Clean up commands

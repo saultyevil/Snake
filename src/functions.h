@@ -28,7 +28,9 @@ int init_default_pars (void);
  */
 
 int eddington_iterations (void);
-int get_rosseland_opac (void);
+int update_cell_opacities (void);
+int find_vertical_tau (void);
+int update_cell_temperatures (void);
 
 /*
  * grid_set.c
@@ -38,13 +40,12 @@ int allocate_1d_grid (void);
 int get_grid_params (void);
 int init_grid (void);
 
-
 /*
  * output.c
  */
 
 int init_filenames (void);
-int write_grid_to_file (void);
+int write_grid_to_file (char *dir_name);
 
 /*
  * read_pars.c

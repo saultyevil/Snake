@@ -35,7 +35,7 @@ double report_convergence (void)
 
   n_converged = check_cell_convergence ();
   c_fraction = (double) n_converged / geo.nx_cells;
-  Log_verbose ("\t\t* %i cells out of %i converged (%1.3f)\n", n_converged,
+  Log_verbose ("\t\t- %i cells out of %i converged (%1.3f)\n", n_converged,
                geo.nx_cells, c_fraction);
 
   return c_fraction;
