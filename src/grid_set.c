@@ -29,7 +29,8 @@ int init_grid (void)
   {
     grid[i].n = i;
     grid[i].x = (i + 1) * geo.hx;
-    grid[i].T = geo.t_star;
+    grid[i].T = grid[i].T_old = geo.t_star;
+    grid[i].rho = 1e-4;  // TODO: clean this up -- i.e. make it work :^)
   }
 
   get_optional_int ("write_grid", &write_grid);
@@ -41,7 +42,7 @@ int init_grid (void)
     write_grid_to_file ();
   }
 
-  return EXIT;
+  return SUCCESS;
 }
 
 int get_grid_params (void)
@@ -58,7 +59,7 @@ int get_grid_params (void)
 
   geo.hx = geo.x_max / geo.nx_cells;
 
-  return EXIT;
+  return SUCCESS;
 }
 
 int allocate_1d_grid (void)
@@ -72,5 +73,5 @@ int allocate_1d_grid (void)
   Log ("\t\t- Allocated %1.2e bytes for %1.2e grid cells\n", (double) mem_req,
        (double) geo.nx_cells);
 
-  return EXIT;
+  return SUCCESS;
 }

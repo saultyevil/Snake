@@ -31,5 +31,5 @@ int init_default_pars (void)
   geo.x_max = 1.0;
   geo.t_star = 4e4;
 
-  return EXIT;
+  return SUCCESS;
 }

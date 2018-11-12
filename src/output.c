@@ -22,7 +22,7 @@ int init_filenames (void)
   strcpy (file_names.gOpacity, "gridOpacity.txt");
   strcpy (file_names.gTemperature, "gridTemperature.txt");
 
-  return EXIT;
+  return SUCCESS;
 }
 
 int write_grid_to_file (void)
@@ -51,8 +51,8 @@ int write_grid_to_file (void)
 
   for (i = 0; i < geo.nx_cells; i++)
   {
-    fprintf (files[0], "%f\n", grid[i].opac);
-    fprintf (files[1], "%f\n", grid[i].dens);
+    fprintf (files[0], "%f\n", grid[i].kappa);
+    fprintf (files[1], "%f\n", grid[i].rho);
     fprintf (files[2], "%f\n", grid[i].T);
   }
 
@@ -60,5 +60,5 @@ int write_grid_to_file (void)
     if (fclose (files[i]))
       Exit (5, "Can't close file %s\n", names[i]);
 
-  return EXIT;
+  return SUCCESS;
 }

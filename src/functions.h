@@ -11,6 +11,13 @@
  * ************************************************************************** */
 
 /*
+ * convergence.c
+ */
+
+int check_cell_convergence (void);
+double report_convergence (void);
+
+/*
  * default_pars.c
  */
 
@@ -21,6 +28,7 @@ int init_default_pars (void);
  */
 
 int eddington_iterations (void);
+int get_rosseland_opac (void);
 
 /*
  * grid_set.c
@@ -72,7 +80,9 @@ int print_duration (struct timespec start_time, char *message);
  * utility.c
  */
 
+int check_opacity_table (void);
 void Exit (int error_code, char *fmt, ...);
 int Log (char *fmt, ...);
 int Log_verbose (char *fmt, ...);
 int Log_error (char *fmt, ...);
+

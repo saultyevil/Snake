@@ -27,7 +27,7 @@ int find_par_file (char *file_path)
   if (ierr == EOF)
     Exit (5, "Nothing entered for parameter file file path\n");
   
-  return EXIT;
+  return SUCCESS;
 }
 
 int init_parameter_file (char *file_path)
@@ -38,7 +38,7 @@ int init_parameter_file (char *file_path)
           file_path);
   Log (" - Loaded parameter file '%s'\n", file_path);
   
-  return EXIT;
+  return SUCCESS;
 }
 
 int get_double (char *par_name, double *value)
@@ -76,7 +76,7 @@ int get_double (char *par_name, double *value)
   else ; // TODO: remove
     // Log_verbose ("%s %f\n", par_name, *value);
   
-  return EXIT;
+  return SUCCESS;
 }
 
 int get_int (char *par_name, int *value)
@@ -114,7 +114,7 @@ int get_int (char *par_name, int *value)
   else ; // TODO: remove
     // Log_verbose ("%s %i\n", par_name, *value);
   
-  return EXIT;
+  return SUCCESS;
 }
 
 int get_string  (char *par_name, char *value)
@@ -152,7 +152,7 @@ int get_string  (char *par_name, char *value)
   else ;  // TODO: remove
     // Log_verbose ("%s %s\n", par_name, value);
   
-  return EXIT;
+  return SUCCESS;
 }
 
 
@@ -167,7 +167,7 @@ int input_double (char *par_name, double *value)
     Exit (9, "Nothing entered for input par\n");
   *value = atof (input_value);
   
-  return EXIT;
+  return SUCCESS;
 }
 
 int input_int (char *par_name, int *value)
@@ -181,7 +181,7 @@ int input_int (char *par_name, int *value)
     Exit (9, "Nothing entered for input par\n");
   *value = atoi (input_value);
   
-  return EXIT;
+  return SUCCESS;
 }
 
 int input_string (char *par_name, char *value)
@@ -195,7 +195,7 @@ int input_string (char *par_name, char *value)
     Exit (9, "Nothing entered for input par\n");
   strcpy (value, input_value);
   
-  return EXIT;
+  return SUCCESS;
 }
 
 int get_optional_int (char *par_name, int *value)
@@ -224,7 +224,7 @@ int get_optional_int (char *par_name, int *value)
       *value = atoi (par_value);
   }
 
-  return EXIT;
+  return SUCCESS;
 }
 
 int get_optional_double (char *par_name, double *value)
@@ -253,5 +253,5 @@ int get_optional_double (char *par_name, double *value)
       *value = atof (par_value);
   }
 
-  return EXIT;
+  return SUCCESS;
 }

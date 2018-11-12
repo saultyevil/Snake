@@ -24,7 +24,7 @@ int print_time_date (void)
   
   Log ("Current time: %s", c_time_string);
   
-  return EXIT;
+  return SUCCESS;
 }
 
 struct timespec get_time (void)
@@ -47,5 +47,5 @@ int print_duration (struct timespec start_time, char *message)
   Log ("%s ", message);
   Log ("%f seconds\n", td);
 
-  return EXIT;
+  return SUCCESS;
 }

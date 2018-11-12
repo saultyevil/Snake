@@ -13,9 +13,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <unistd.h>
 
 #include "snake.h"
 
+int check_opacity_table ()
+{
+  Log (" - Checking for Opal Opacity Table: 'GN93hz'\n");
+  if (access ("GN93hz", F_OK) == -1)
+    Exit (15, "GN93hz not found in current directory.\n");
+  Log ("\t- GN93hz found!\n");
+
+  return SUCCESS;
+}
 
 void Exit (int error_code, char *fmt, ...)
 {
@@ -24,7 +34,7 @@ void Exit (int error_code, char *fmt, ...)
   va_start (arg_list, fmt);
 
   printf ("\n--------------------------------------------------------------\n\n");
-  printf ("\tERROR: ");
+  printf ("\tFAILURE: ");
   vprintf (fmt, arg_list);
   printf ("\t       Exiting with error code %i\n", error_code);
   printf ("\n--------------------------------------------------------------\n");
@@ -41,7 +51,7 @@ int Log (char *fmt, ...)
   vprintf (fmt, arg_list);
   va_end (arg_list);
   
-  return EXIT;
+  return SUCCESS;
 }
 
 int Log_verbose (char *fmt, ...)
@@ -54,10 +64,10 @@ int Log_verbose (char *fmt, ...)
     vprintf (fmt, arg_list);
     va_end (arg_list);
   
-    return EXIT;
+    return SUCCESS;
   }
   else
-    return EXIT;
+    return SUCCESS;
 }
 
 int Log_error (char *fmt, ...)
@@ -65,9 +75,9 @@ int Log_error (char *fmt, ...)
   va_list arg_list;
   
   va_start (arg_list, fmt);
-  printf ("ERROR: ");
+  printf (" Error: ");
   vprintf (fmt, arg_list);
   va_end (arg_list);
   
-  return EXIT;
+  return SUCCESS;
 }

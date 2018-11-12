@@ -41,5 +41,5 @@ int init_geo (void)
   else
     Exit (2, "Invalid choice '%s' for geo_type\n", geo.geo_type);
 
-  return EXIT;
+  return SUCCESS;
 }

@@ -63,9 +63,10 @@ int main (int argc, char **argv)
   init_geo ();
 
   /*
-   * Begin the MCRT iterations
+   * Begin the Eddington iterations -- check that the opacity tables is present
    */
 
+  check_opacity_table ();
   eddington_iterations ();
 
   /*
@@ -77,5 +78,5 @@ int main (int argc, char **argv)
   print_duration (start_time, "Simulation completed in");
   Log ("\n--------------------------------------------------------------\n\n");
 
-  return EXIT;
+  return SUCCESS;
 }

@@ -1,42 +1,44 @@
 # Helpful macros
 TARGET_EXEC ?= snake
 OBJ_DIR ?= ./src/objs
-SRC_DIRS ?= ./src
+SRC_DIR ?= ./src
 BIN_DIR ?= ./bin
 
-# Macros for CC
-CC = mpicc
-CFLAGS = -pedantic -Wall -O2 -DMPI_ON
-LIBS = -lm -lgsl -lgslcblas
+# Macros for CC and FCC
+CC = gcc
+FC = gfortran
+CFLAGS = -pedantic -Wall -O2
+CLIBS = -lm
+FFLAGS = 
+FLIBS = 
 
-# Directories
-SRCS := $(shell find $(SRC_DIRS) -name *.c)
+# Useful macros
+MKDIR_P ?= mkdir -p
+
+# Create file paths for the source and object files
+SRCS := $(shell find $(SRC_DIR) -name *.c -or -name *.f)
 OBJS := $(SRCS:%=$(OBJ_DIR)/%.o)
-DEPS := $(OBJS:.o=.d)
 
-# Include Macros
-INC_DIRS := $(shell find $(SRC_DIRS) -type d)
-INC_FLAGS := $(addprefix -I,$(INC_DIRS))
-
-# Compile the source
+# Compile the source and move to the bin directory
 $(TARGET_EXEC): $(OBJS)
-	$(CC) $(OBJS) $(CFLAGS) $(LIBS) -o $@
+	$(FC) $(FFLAGS) $(OBJS) -o $@
 	$(MKDIR_P) $(BIN_DIR)
 	mv $@ $(BIN_DIR)/$@
 
-# Create object files
+# Create object files: note that the C and F object files are created separately 
 $(OBJ_DIR)/%.c.o: %.c
 	$(MKDIR_P) $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-.PHONY: clean
+$(OBJ_DIR)/%.f.o: %.f
+	$(FC) $(FFLAGS) $(FLIBS) -c $< -o $@
 
-# clean stuff up
+# Clean up commands
 clean:
 	$(RM) -r $(OBJ_DIR)
 
 clean-all:
 	$(RM) -r $(OBJ_DIR)
-	$(RM) $(TARGET_EXEC)
+	$(RM) $(BIN_DIR)/$(TARGET_EXEC)
 
-MKDIR_P ?= mkdir -p
+.PHONY: clean clean-all

@@ -12,10 +12,10 @@
 
 #define TRUE 1
 #define FALSE 0
-#define EXIT 0
-#define ERROR 1
+#define SUCCESS 0
+#define FAILURE 1
 #define LINE_LEN 256
-
+#define MAX_ITER 500
 
 /*
  * Global variables
@@ -51,8 +51,9 @@ typedef struct Grid
   double n;
   double x;
   double T;
-  double opac;
-  double dens;
+  double T_old;
+  double kappa;
+  double rho;
 } Grid;
 
 Grid *grid;
@@ -67,3 +68,4 @@ typedef struct File_names
 File_names file_names;
 
 #include "functions.h"
+#include "flib.h"
