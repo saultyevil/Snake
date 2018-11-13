@@ -19,11 +19,12 @@ int main (int argc, char **argv)
 {
   struct timespec start_time;
   char par_file_path[LINE_LEN];
-  char grid_out_dir[LINE_LEN];
   int verbosity = FALSE;
 
   start_time = get_time ();
-  
+
+  OUTPUT_FILE_STAT = 0;
+
   Log ("\n--------------------------------------------------------------\n\n");
   print_time_date ();
   Log ("\n--------------------------------------------------------------\n\n");
@@ -59,8 +60,8 @@ int main (int argc, char **argv)
 
   Log (" - Beginning initialisation routines\n");
 
-  init_filenames ();
   init_default_pars ();
+  init_outfile (OUTPUT_NAME);
   init_geo ();
 
   /*
@@ -71,15 +72,13 @@ int main (int argc, char **argv)
   eddington_iterations ();
 
   /*
-   * Output the results to file
+   * Clean up and exit the program
    */
 
-  strcpy (grid_out_dir, "grid_out");
-  Log (" - Writing converged grid into the directory %s\n", grid_out_dir);
-  write_grid_to_file (grid_out_dir);
+  clean_up ();
 
   Log ("\n--------------------------------------------------------------\n\n");
-  print_duration (start_time, "Simulation completed in");
+  print_duration (start_time, " Simulation completed in");
   Log ("\n--------------------------------------------------------------\n\n");
 
   return SUCCESS;

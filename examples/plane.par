@@ -1,14 +1,13 @@
 ## 1d Plane Simulation
 # General parameters
-output_freq :: 10
-extra_grid_out :: 1
+init_grid_out :: 1
 verbosity :: 1
 
 # Grid parameters
 geo_type :: planar
-nx_cells :: 100
+nx_cells :: 50
 x_max :: 1e12
-t_star :: 1e5
-irho :: 1e-8
+t_star :: 1e6
+irho :: 1e-5
 X :: 0.74
 Z :: 0.02

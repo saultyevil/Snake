@@ -36,7 +36,7 @@ int init_parameter_file (char *file_path)
   if (!PAR_FILE_PTR)
     Exit (2, "Could not find parameter file '%s'\n",
           file_path);
-  Log (" - Loaded parameter file '%s'\n", file_path);
+  Log (" - Loaded parameter file '%s'\n\n", file_path);
   
   return SUCCESS;
 }

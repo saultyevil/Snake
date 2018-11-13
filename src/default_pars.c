@@ -17,10 +17,10 @@
 int init_default_pars (void)
 {
   /*
-   * Initialise the general parameters for iterations
+   * Initialise generic parameters
    */
 
-  PROGRESS_OUT_FREQ = (int) 1e5;
+  strcpy (OUTPUT_NAME, "sgrid.out");
 
   /*
    * Initialise the geo pars to be a small planar atmosphere

@@ -22,7 +22,7 @@ int print_time_date (void)
   current_time = time (NULL);
   c_time_string = ctime (&current_time);
   
-  Log ("Current time: %s", c_time_string);
+  Log (" Current time: %s", c_time_string);
   
   return SUCCESS;
 }

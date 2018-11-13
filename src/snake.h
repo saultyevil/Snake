@@ -22,7 +22,8 @@
  */
 
 int VERBOSITY;
-int PROGRESS_OUT_FREQ;
+char OUTPUT_NAME[LINE_LEN];
+int OUTPUT_FILE_STAT;
 
 /*
  * The available grid types -- note that this code will exploit symmetry
@@ -38,6 +39,7 @@ int PROGRESS_OUT_FREQ;
 typedef struct Geometry
 {
   char geo_type[LINE_LEN];
+  int icycle;
   int nx_cells;
   double t_star;
   double irho;
@@ -50,28 +52,15 @@ Geometry geo;
 
 typedef struct Grid
 {
-  double n;
+  int n;
   double x;
   double T;
   double T_old;
   double kappa;
   double rho;
+  double trans_tau;
 } Grid;
 
 Grid *grid;
-
-/*
- * Note that filenames are set in the file output.c in the function
- * int init_filenames (void).
- */
-
-typedef struct File_names
-{
-  char grid_density[LINE_LEN];
-  char grid_opacity[LINE_LEN];
-  char grid_temperature[LINE_LEN];
-} File_names;
-
-File_names file_names;
 
 #include "functions.h"

@@ -31,6 +31,7 @@ int eddington_iterations (void);
 int update_cell_opacities (void);
 int find_vertical_tau (void);
 int update_cell_temperatures (void);
+double eddington_approximation (double T_eff, double tau);
 
 /*
  * grid_set.c
@@ -44,8 +45,9 @@ int init_grid (void);
  * output.c
  */
 
-int init_filenames (void);
-int write_grid_to_file (char *dir_name);
+int init_outfile (char *filename);
+int close_outfile (void);
+int write_grid_to_file (void);
 
 /*
  * read_pars.c
@@ -86,4 +88,5 @@ void Exit (int error_code, char *fmt, ...);
 int Log (char *fmt, ...);
 int Log_verbose (char *fmt, ...);
 int Log_error (char *fmt, ...);
+int clean_up (void);
 
