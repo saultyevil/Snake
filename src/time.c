@@ -1,10 +1,12 @@
 /* ***************************************************************************
  *
- * @file
+ * @file time.c
  *
- * @author
+ * @author E. J. Parkinson
  *
- * @brief
+ * @date 14 Nov 2018
+ *
+ * @brief Functions for time keeping.
  *
  * @details
  *
@@ -43,9 +45,8 @@ int print_duration (struct timespec start_time, char *message)
 
   clock_gettime (CLOCK_PROCESS_CPUTIME_ID, &end_time);
   td = (end_time.tv_sec - start_time.tv_sec) +
-                                  (end_time.tv_nsec - start_time.tv_nsec) / 1e9;
-  Log ("%s ", message);
-  Log ("%f seconds\n", td);
+                                (end_time.tv_nsec - start_time.tv_nsec) * 1e-9;
+  Log ("%s %f seconds\n", message, td);
 
   return SUCCESS;
 }

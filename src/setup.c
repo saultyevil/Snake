@@ -1,10 +1,12 @@
 /* ***************************************************************************
  *
- * @file
+ * @file setup.c
  *
- * @author
+ * @author E. J. Parkinson
  *
- * @brief
+ * @date 14 Nov 2018
+ *
+ * @brief Contains the function to initialise the geometry of the problem.
  *
  * @details
  *
@@ -16,10 +18,6 @@
 
 int init_geo (void)
 {
-  /*
-   * Get the mass fractions
-   */
-
   get_double ("X", &geo.X);
   get_double ("Z", &geo.Z);
   if (geo.X + geo.Z > 1)
@@ -27,8 +25,9 @@ int init_geo (void)
   geo.Y = 1.0 - geo.X - geo.Z;
 
   /*
-   * Get the grid and model types sand call the appropriate grid initialisation
-   * routine
+   * Get the grid and model types and call the appropriate grid initialisation
+   * routine -- assuming at some point we will try a cylindrical and spherical
+   * grids
    */
 
   get_string ("geo_type", geo.geo_type);
@@ -38,7 +37,7 @@ int init_geo (void)
     init_grid ();
   }
   else
-    Exit (2, "Invalid choice '%s' for geo_type\n", geo.geo_type);
+    Exit (2, "Invalid choice %s for geo_type\n", geo.geo_type);
 
   return SUCCESS;
 }

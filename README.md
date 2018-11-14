@@ -4,7 +4,7 @@
 
 **Currently a WIP...**
 
-**!!!!ALART!!!! Currently doesn't seem to work on my MacBook using gfortran-8**
+**!!!!ALART!!!! Currently doesn't seem to work on my MacBook using gfortran-8!!!**
 
 The purpose of this code is to test the performance of using the [Eddington approximation](https://en.wikipedia.org/wiki/Radiative_transfer#The_Eddington_approximation) to estimate the physical conditions in cells within the optically thick limit.
 

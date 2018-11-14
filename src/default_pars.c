@@ -1,10 +1,13 @@
 /* ***************************************************************************
  *
- * @file
+ * @file default_pars.c
  *
- * @author
+ * @author E. J. Parkinson
  *
- * @brief
+ * @date 14 Nov 2018
+ *
+ * @brief Contains the function for initialising default parameters to the
+ *        parameters which are read in from a parameter file.
  *
  * @details
  *
@@ -17,21 +20,21 @@
 int init_default_pars (void)
 {
   /*
-   * Initialise generic parameters
-   */
-
-  strcpy (OUTPUT_NAME, "sgrid.out");
-
-  /*
-   * Initialise the geo pars to be a small planar atmosphere
+   * Geometry parameters for planar atmosphere
    */
 
   strcpy (geo.geo_type, PLANAR);
-  geo.nx_cells = 100;
-  geo.x_max = 1e12;
+  geo.nz_cells = 100;
+  geo.z_max = 1e10;
   geo.t_star = 1e5;
   geo.irho = 1e-5;
-  geo.X = 0.74;  // mass fractions for hydrogen X, helium Y and metals Z
+
+  /*
+   * Mass fractions for hydrogen X, helium Y and metals Z - default values are
+   * the standard solar composition
+   */
+
+  geo.X = 0.74;
   geo.Z = 0.02;
   geo.Y = 1.0 - geo.X - geo.Y;
 

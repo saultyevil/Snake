@@ -1,10 +1,12 @@
 /* ***************************************************************************
  *
- * @file
+ * @file convergence.c
  *
- * @author
+ * @author E. J. Parkinson
  *
- * @brief
+ * @date 14 Nov 2018
+ *
+ * @brief Functions for checking the convergence of the Eddington algorithm.
  *
  * @details
  *
@@ -19,9 +21,9 @@ int check_cell_convergence (void)
   int i;
 
   int n_converged = 0;
-  double eps = 0.05;
+  double eps = 0.05;  // TODO: remove hardcoded convergence limit
 
-  for (i = 0; i  < geo.nx_cells; i++)
+  for (i = 0; i  < geo.nz_cells; i++)
     if (fabs ((grid[i].T_old - grid[i].T) / (grid[i].T_old + grid[i].T)) < eps)
       n_converged += 1;
 
@@ -34,9 +36,9 @@ double report_convergence (void)
   double c_fraction;
 
   n_converged = check_cell_convergence ();
-  c_fraction = (double) n_converged / geo.nx_cells;
-  Log_verbose ("\t\t- %i cells out of %i converged (%1.3f)\n", n_converged,
-               geo.nx_cells, c_fraction);
+  c_fraction = (double) n_converged / geo.nz_cells;
+  Verbose_log ("\t\t- %i cells out of %i converged (%1.3f)\n", n_converged,
+               geo.nz_cells, c_fraction);
 
   return c_fraction;
 }

@@ -137,7 +137,7 @@ c               at fixed rho
           izz=i
           call kappa (0,izz,xh,t6,r)
           if (opact .gt. 9.0) write (*,'(" logK > 9.0, X=",f7.5," Z=",
-     x    f7.5," T6=",f10.5," R=",e12.4)') xh,z,t6,r
+     z    f7.5," T6=",f10.5," R=",e12.4)') xh,z,t6,r
           return
         endif
       enddo
@@ -169,7 +169,7 @@ c       slow Z variation(except at very small Z)
         if(xh+za(mfm) .gt. 1.) then
             if(m1 .le. 1) then
               write(*,'("special case: X,Z location not covered by"
-     x                 ," logic")')
+     z                 ," logic")')
               stop
             endif 
           m1=m1-1
@@ -182,7 +182,7 @@ c
         izz=iz
         call kappa(izi,izz,xh,t6,r)
           if (opact .gt. 9.0) write (*,'(" logK > 9.0, X=",f7.5," Z=",
-     x    f7.5," T6=",f10.5," R=",e12.4)') xh,z,t6,r
+     z    f7.5," T6=",f10.5," R=",e12.4)') xh,z,t6,r
         izi=1
         kapz(iz)=10.**opact ! converts logK to K
         dkapdtr(iz)=dopact
@@ -191,12 +191,12 @@ c
       is=0
       iw=1
       kapz1=quad(is,iw,zzl,kapz(m1),kapz(m2),kapz(m3)
-     x ,zza(m1),zza(m2),zza(m3))
+     z ,zza(m1),zza(m2),zza(m3))
       is=1
       dkapz1=quad(is,iw,zzl,dkapdtr(m1),dkapdtr(m2),dkapdtr(m3)
-     x ,zza(m1),zza(m2),zza(m3))
+     z ,zza(m1),zza(m2),zza(m3))
       dkapz3=quad(is,iw,zzl,dkapdrt(m1),dkapdrt(m2),dkapdrt(m3)
-     x ,zza(m1),zza(m2),zza(m3))
+     z ,zza(m1),zza(m2),zza(m3))
       if (mfm .eq. m3) then
         opact=log10(kapz1)   ! converts K to logK
         dopact=dkapz1
@@ -210,12 +210,12 @@ c
       is=0
       iw=2
       kapz2=quad(is,iw,zzl,kapz(m2),kapz(m3),kapz(m4)
-     x ,zza(m2),zza(m3),zza(m4))
+     z ,zza(m2),zza(m3),zza(m4))
       is=1
       dkapz2=quad(is,iw,zzl,dkapdtr(m2),dkapdtr(m3),dkapdtr(m4)
-     x ,zza(m2),zza(m3),zza(m4))
+     z ,zza(m2),zza(m3),zza(m4))
       dkapz4=quad(is,iw,zzl,dkapdrt(m2),dkapdrt(m3),dkapdrt(m4)
-     x ,zza(m2),zza(m3),zza(m4))
+     z ,zza(m2),zza(m3),zza(m4))
       dix=(zza(m3)-zzl)*dfsz(m3)
       opact=log10(kapz1*dix+kapz2*(1.-dix))   ! converts K to logK
       dopact=dkapz1*dix+dkapz2*(1.-dix)
@@ -403,10 +403,10 @@ c
         endif
       enddo
       if ((iadvance .eq. 0) .and. (k1 .le. kmin) .and.
-     x    (slt .le. alt(kmin))) then
+     z    (slt .le. alt(kmin))) then
       k1=kmin
       if ((xz(1,mzz,kmin,l1+1) .lt. 9.) .and.
-     x   ((slr+.01) .gt. alr(l1+1))) then
+     z   ((slr+.01) .gt. alr(l1+1))) then
       l1=l1+1
       kmin=0
       k1=k1in
@@ -462,9 +462,9 @@ c__________
       enddo
   123 continue
       if((zz(mg,mzin) .ne. zz(mf,mzin)) .or.
-     x    (zz(mh,mzin) .ne. zz(mf,mzin))) then
+     z    (zz(mh,mzin) .ne. zz(mf,mzin))) then
       write(*,'("Z does not match Z in GN93hz files you are"
-     x ," using")')
+     z ," using")')
       stop
       endif
       if(z .ne. zz(mf,mzin)) go to 66
@@ -478,7 +478,7 @@ c                  with return
         go to 46
         endif
         opk(it,ir)=quad(is,iw,xxx,opl(mf,it,ir),opl(mg,it,ir)
-     x  ,opl(mh,it,ir),xx(mf),xx(mg),xx(mh))
+     z  ,opl(mh,it,ir),xx(mf),xx(mg),xx(mh))
         is=1
    46   continue
         enddo
@@ -491,7 +491,7 @@ c                  with return
       do 47 ir=l1,l1+iq
         do it=k1,k1+ip
         opk2(it,ir)=quad(is,iw,xxx,opl(mg,it,ir),opl(mh,it,ir)
-     x  ,opl(mi,it,ir),xx(mg),xx(mh),xx(mi))
+     z  ,opl(mi,it,ir),xx(mg),xx(mh),xx(mi))
         opk(it,ir)=opk(it,ir)*dixr+opk2(it,ir)*(1.-dixr)
         is=1
         enddo
@@ -514,8 +514,8 @@ c                  with a return
       stop
    62 write(*,'(" T6/LogR outside of table range")')
 c     write(*,'("slt,alt(1),alt(nt),slr,alr(1),alr(nre),l3s,i,k3s,
-c    x nta(i+1)",6e12.5,4i5)') slt,alt(1),alt(nt),slr,alr(1),
-c    x alr(nre),l3s,i,k3s,nta(i+1)
+c    z nta(i+1)",6e12.5,4i5)') slt,alt(1),alt(nt),slr,alr(1),
+c    z alr(nre),l3s,i,k3s,nta(i+1)
 c                  with a return 
       stop
    64 write(*,'(" X not equal to zero: To run this case it
@@ -550,11 +550,11 @@ c
           iw=1
         iu=iu+1
         h(iu)=quad(is,iw,slr,opk(kx,l1),opk(kx,l2),opk(kx,l3),
-     x  alr(l1),alr(l2),alr(l3))
+     z  alr(l1),alr(l2),alr(l3))
           if(iq. eq. 3) then
             iw=2
             q(iu)=quad(is,iw,slr,opk(kx,l2),opk(kx,l3),opk(kx,l4),
-     x      alr(l2),alr(l3),alr(l4))
+     z      alr(l2),alr(l3),alr(l4))
           endif
         is=1
       enddo
@@ -593,11 +593,11 @@ c
         iw=1
         iu=iu+1
         h(iu)=quad(is,iw,slt,opk(k1,lx),opk(k2,lx),opk(k3,lx),
-     x  alt(k1),alt(k2),alt(k3))
+     z  alt(k1),alt(k2),alt(k3))
           if(ip .eq. 3) then
             iw=2
             q(iu)=quad(is,iw,slt,opk(k2,lx),opk(k3,lx),opk(k4,lx),
-     x      alt(k2),alt(k3),alt(k4))
+     z      alt(k2),alt(k3),alt(k4))
           endif
         is=1
       enddo
@@ -635,7 +635,7 @@ c.....        Dlog(k)/Dlog(R) smoothed in both log(T6) and Log(R).
       dopactd=dopact-3.*dopacr
         if (opact .gt. 1.e+15) then
           write(*,'("Interpolation indices out of range",
-     x              ";please report conditions.")') 
+     z              ";please report conditions.")')
           stop
         endif
           if (opact .gt. 9.) then
@@ -805,7 +805,7 @@ c***********************************************************************
      . zz(mx,mz)
       data (xa(i),i=1,mx-1)/0.0,0.1,0.2,0.35,0.5,.7,.8,.9,.95/
       data (za(i),i=1,mz)/.0,0.0001,.0003,.001,.002,.004,.01,.02,.03,
-     x .04,.06,.08,.1/
+     z .04,.06,.08,.1/
       data (nta(i),i=1,nrm)/14*70,69,64,60,58,57/
       data (n(i),i=1,mx)/13,13,13,13,13,13,13,13,10,12/
       end

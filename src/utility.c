@@ -1,10 +1,12 @@
 /* ***************************************************************************
  *
- * @file
+ * @file utility.c
  *
- * @author
+ * @author E. J. Parkinson
  *
- * @brief
+ * @date 14 Nov 2018
+ *
+ * @brief General utility functions, i.e. logging and error functions.
  *
  * @details
  *
@@ -17,11 +19,21 @@
 
 #include "snake.h"
 
-int check_opacity_table ()
+int check_opacity_table (void)
 {
-  Log (" - Checking for Opal Opacity Table GN93hz\n");
+  Log ("\t- Checking for Opal Opacity Table GN93hz\n");
   if (access ("GN93hz", F_OK) == -1)
     Exit (15, "GN93hz not found in current directory.\n");
+
+  return SUCCESS;
+}
+
+int clean_up (void)
+{
+  Verbose_log ("\n - Cleaning up memory and files before exit\n");
+  free (grid);
+  close_outfile ();
+  close_parameter_file ();
 
   return SUCCESS;
 }
@@ -32,13 +44,14 @@ void Exit (int error_code, char *fmt, ...)
 
   va_start (arg_list, fmt);
 
-  printf ("\n--------------------------------------------------------------\n\n");
-  printf ("\tALART: ");
+  printf ("\n--------------------------------------------------------------\n");
+  printf ("\n\tALART: ");
   vprintf (fmt, arg_list);
   printf ("\t       Exiting with error code %i\n", error_code);
   printf ("\n--------------------------------------------------------------\n");
 
   va_end (arg_list);
+
   exit (error_code);
 }
 
@@ -53,7 +66,7 @@ int Log (char *fmt, ...)
   return SUCCESS;
 }
 
-int Log_verbose (char *fmt, ...)
+int Verbose_log (char *fmt, ...)
 {
   if (VERBOSITY == TRUE)
   {
@@ -62,11 +75,9 @@ int Log_verbose (char *fmt, ...)
     va_start (arg_list, fmt);
     vprintf (fmt, arg_list);
     va_end (arg_list);
-  
-    return SUCCESS;
   }
-  else
-    return SUCCESS;
+
+  return SUCCESS;
 }
 
 int Log_error (char *fmt, ...)
@@ -78,14 +89,5 @@ int Log_error (char *fmt, ...)
   vprintf (fmt, arg_list);
   va_end (arg_list);
   
-  return SUCCESS;
-}
-
-int clean_up (void)
-{
-  Log_verbose ("\n - Cleaning up memory and files before exit\n");
-  close_outfile ();
-  free (grid);
-
   return SUCCESS;
 }

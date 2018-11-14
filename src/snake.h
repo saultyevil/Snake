@@ -1,10 +1,13 @@
 /* ***************************************************************************
  *
- * @file
+ * @file snake.h
  *
- * @author
+ * @author E. J. Parkinson
  *
- * @brief
+ * @date 14 Nov 2018
+ *
+ * @brief Header file containing global macros, constants, variables and
+ *        structs.
  *
  * @details
  *
@@ -22,8 +25,6 @@
  */
 
 int VERBOSITY;
-char OUTPUT_NAME[LINE_LEN];
-int OUTPUT_FILE_STAT;
 
 /*
  * The available grid types -- note that this code will exploit symmetry
@@ -40,20 +41,24 @@ typedef struct Geometry
 {
   char geo_type[LINE_LEN];
   int icycle;
-  int nx_cells;
+  int nz_cells;
   double t_star;
   double irho;
-  double hx;
-  double x_max;
+  double hz;
+  double z_max;
   double X, Y, Z;
 } Geometry;
 
 Geometry geo;
 
+/*
+ * The structure for each cell on the 1D grid
+ */
+
 typedef struct Grid
 {
   int n;
-  double x;
+  double z;
   double T;
   double T_old;
   double kappa;

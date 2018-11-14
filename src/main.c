@@ -1,10 +1,12 @@
 /* ***************************************************************************
 *
-* @file
+* @file main.c
 *
-* @author
+* @author E. J. Parkinson
 *
-* @brief
+* @date 14 Nov 2018
+*
+* @brief Contains the main function.
 *
 * @details
 *
@@ -19,11 +21,10 @@ int main (int argc, char **argv)
 {
   struct timespec start_time;
   char par_file_path[LINE_LEN];
+  char output_name[LINE_LEN];
   int verbosity = FALSE;
 
   start_time = get_time ();
-
-  OUTPUT_FILE_STAT = 0;
 
   Log ("\n--------------------------------------------------------------\n\n");
   print_time_date ();
@@ -45,7 +46,6 @@ int main (int argc, char **argv)
     strcpy (par_file_path, argv[1]);
   else
     Exit (1, "Too many arguments provided\n");
-  
   init_parameter_file (par_file_path);
 
   get_optional_int ("verbosity", &verbosity);
@@ -53,27 +53,13 @@ int main (int argc, char **argv)
   if ((VERBOSITY != FALSE) && (VERBOSITY != TRUE))
     Exit (2, "Invalid value for verbosity: verbosity should be 0 or 1\n");
   
-  /*
-   * Begin the process of initialising all of the simulation components such
-   * as the photons and the the density grid
-   */
-
   Log (" - Beginning initialisation routines\n");
-
   init_default_pars ();
-  init_outfile (OUTPUT_NAME);
+  init_outfile ();
   init_geo ();
 
-  /*
-   * Begin the Eddington iterations -- check that the opacity tables is present
-   */
-
-  check_opacity_table ();
+  Log (" - Beginning Eddington iterations\n");
   eddington_iterations ();
-
-  /*
-   * Clean up and exit the program
-   */
 
   clean_up ();
 
