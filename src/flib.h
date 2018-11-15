@@ -22,10 +22,15 @@
  *
  * ************************************************************************** */
 
+#define MIN_LOG_R -8
+#define MAX_LOG_R 1
+#define MIN_LOG_T 3.75
+#define MAX_LOG_T 8.7
+
 /*
  * As the provided interpolation routines use common blocks to return values of
  * the Rosseland opacity, we first need to declare memory to store the common
- * block. This is done via a struct
+ * block. This is done via a struct...
  */
 
 struct

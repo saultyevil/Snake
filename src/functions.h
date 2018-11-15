@@ -86,6 +86,7 @@ int print_duration (struct timespec start_time, char *message);
  * utility.c
  */
 
+int float_compare (double a, double b);
 int check_opacity_table (void);
 void Exit (int error_code, char *fmt, ...);
 int Log (char *fmt, ...);

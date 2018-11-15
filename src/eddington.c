@@ -68,7 +68,8 @@ int eddington_update (void)
 int update_cell_opacities (void)
 {
   int i;
-  float Z, X, T, R;
+  float Z, X, T6, R;
+  float logT, logR;
 
   Verbose_log ("\t\t- Updating cell opacities\n");
 
@@ -77,16 +78,26 @@ int update_cell_opacities (void)
 
   for (i = 0; i < geo.nz_cells; i++)
   {
-    T = (float) (grid[i].T * 1e-6);
-    R = (float) (grid[i].rho / pow (T, 3.0));
-
-    Log ("cell %i T6/Log(R) = %e\n", grid[i].n, T / log (R));
+    T6 = (float) (grid[i].T * 1e-6);
+    R = (float) (grid[i].rho / pow (T6, 3.0));
 
     /*
-     * Call the Opal Opacity interpolation function -- see opal.f
+     * Check that the T6 and R values are within the Opal table range
      */
 
-    opacgn93_ (&Z, &X, &T, &R);
+    logR = (float) log10 (R);
+    logT = (float) log10 (grid[i].T);
+    if ((logR < MIN_LOG_R) || (logR > MAX_LOG_R))
+      Exit (19, "logR out of Opal table range for cell %i\n", grid[i].n);
+    if ((logT < MIN_LOG_T) || (logT > MAX_LOG_T))
+      Exit (19, "logT out of Opal table range for cell %i\n", grid[i].n);
+
+    /*
+     * Call the Opal Opacity interpolation function -- see opal.f and flib.h
+     * for more detailed description of how this works
+     */
+
+    opacgn93_ (&Z, &X, &T6, &R);
 
     grid[i].kappa = pow (10.0, e_.opact);
   }
@@ -134,8 +145,14 @@ int update_cell_temperatures (void)
   }
 
   Verbose_log ("\t\t- Total rtau %e\n", rtau);
-  if (rtau > tot_tau)
-    Log_error ("rtau > tot_tau!\n");
+  if (float_compare (rtau, tot_tau))
+  {
+    if (rtau > tot_tau)
+      Log_error ("\t  - rtau > tot_tau\n");
+    else
+      Log_error ("\t  - rtau < tot_tau\n");
+    Log_error ("\t  - rtau = %e tot_tau = %e\n", rtau, tot_tau);
+  }
 
   return SUCCESS;
 }

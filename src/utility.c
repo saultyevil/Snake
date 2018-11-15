@@ -12,12 +12,23 @@
  *
  * ************************************************************************** */
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <unistd.h>
 
 #include "snake.h"
+
+double FLOAT_EPS = 1e-6;
+
+int float_compare (double a, double b)
+{
+  if (fabs (a - b) < FLOAT_EPS)
+    return SUCCESS;
+  else
+    return FAILURE;
+}
 
 int check_opacity_table (void)
 {
@@ -48,7 +59,7 @@ void Exit (int error_code, char *fmt, ...)
   printf ("\n\tALART: ");
   vprintf (fmt, arg_list);
   printf ("\t       Exiting with error code %i\n", error_code);
-  printf ("\n--------------------------------------------------------------\n");
+  printf ("\n--------------------------------------------------------------\n\n");
 
   va_end (arg_list);
 

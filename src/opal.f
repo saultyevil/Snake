@@ -312,8 +312,17 @@ c
 c
 c..... Determine log R and log T6 grid points to use in the
 c      interpolation.
-      if((slt .lt. alt(1)).or.(slt .gt. alt(nt))) go to 62
-      if((slr .lt. alr (1)).or.(slr .gt. alr(nre))) go to 62
+      if((slt .lt. alt(1)).or.(slt .gt. alt(nt))) then
+        write(6,*) "logT6 out of table range", slt, alt(1), alt(nt)
+        write(6,*) "logR out of table range", slr, alr(1), alr(nre)
+        go to 62
+      endif
+
+      if((slr .lt. alr (1)).or.(slr .gt. alr(nre))) then
+        write(6,*) "logR out of table range", slr, alr(1), alr(nre)
+        write(6,*) "logT6 out of table range", slt, alt(1), alt(nt)
+        go to 62
+      endif
 c
 c
 c
@@ -1022,7 +1031,7 @@ C*********************************************************************
       GOTO 1
       ENDIF
       H=XA(KHI)-XA(KLO)
-      IF (H.EQ.0.) PAUSE 'Bad XA input.'
+      IF (H.EQ.0.) WRITE(6,*) 'Bad XA input.'
       A=(XA(KHI)-X)/H
       B=(X-XA(KLO))/H
       Y=A*YA(KLO)+B*YA(KHI)+

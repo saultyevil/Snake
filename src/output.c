@@ -51,7 +51,7 @@ int write_grid (void)
     fprintf (outfile, "# Cycle %i\n", geo.icycle);
 
   fprintf (outfile,  // Write header
-           "# n_cell xcoord rho rosseland_kappa transverse_tau temperature\n");
+           "# n_cell zcoord rho rosseland_opacity transverse_optical_depth temperature\n");
 
   for (i = 0; i < geo.nz_cells; i++)  // Write grid
     fprintf (outfile, "%i %e %e %e %e %e\n", grid[i].n, grid[i].z, grid[i].rho,

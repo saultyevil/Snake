@@ -21,7 +21,6 @@ int main (int argc, char **argv)
 {
   struct timespec start_time;
   char par_file_path[LINE_LEN];
-  char output_name[LINE_LEN];
   int verbosity = FALSE;
 
   start_time = get_time ();
