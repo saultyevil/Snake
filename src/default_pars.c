@@ -26,7 +26,7 @@ int init_default_pars (void)
   strcpy (geo.geo_type, PLANAR);
   geo.nz_cells = 100;
   geo.z_max = 1e10;
-  geo.t_star = 1e5;
+  geo.T_init = 1e5;
   geo.irho = 1e-5;
 
   /*

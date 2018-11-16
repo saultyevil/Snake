@@ -24,7 +24,7 @@ double FLOAT_EPS = 1e-6;
 
 int float_compare (double a, double b)
 {
-  if (fabs (a - b) < FLOAT_EPS)
+  if (fabs (a - b) / (a + b) < FLOAT_EPS)
     return SUCCESS;
   else
     return FAILURE;
@@ -32,7 +32,7 @@ int float_compare (double a, double b)
 
 int check_opacity_table (void)
 {
-  Log ("\t- Checking for Opal Opacity Table GN93hz\n");
+  Log ("\t- Checking for Opal Opacity Table GN93hz\n\n");
   if (access ("GN93hz", F_OK) == -1)
     Exit (15, "GN93hz not found in current directory.\n");
 

@@ -46,16 +46,17 @@ int write_grid (void)
   int i;
 
   if (geo.icycle == 0)
-    fprintf (outfile, "# Grid init\n");
+    fprintf (outfile, "# Grid init tot_tau %e\n", geo.tot_tau);
   else
-    fprintf (outfile, "# Cycle %i\n", geo.icycle);
+    fprintf (outfile, "# Cycle %i tot_tau %e\n", geo.icycle, geo.tot_tau);
 
   fprintf (outfile,  // Write header
-           "# n_cell zcoord rho rosseland_opacity transverse_optical_depth temperature\n");
+           "# n_cell zcoord rho rosseland_opacity cell_optical_depth cumulative_tau temperature\n");
 
   for (i = 0; i < geo.nz_cells; i++)  // Write grid
-    fprintf (outfile, "%i %e %e %e %e %e\n", grid[i].n, grid[i].z, grid[i].rho,
-             grid[i].kappa, grid[i].trans_tau, grid[i].T);
+    fprintf (outfile, "%i %e %e %e %e %e %e\n", grid[i].n, grid[i].z,
+             grid[i].rho, grid[i].kappa, grid[i].cell_tau, grid[i].tau_depth,
+             grid[i].T);
 
   return SUCCESS;
 }

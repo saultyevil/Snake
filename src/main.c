@@ -57,7 +57,7 @@ int main (int argc, char **argv)
   init_outfile ();
   init_geo ();
 
-  Log (" - Beginning Eddington iterations\n");
+  Log ("\n - Beginning Eddington iterations\n");
   eddington_iterations ();
 
   clean_up ();

@@ -42,7 +42,9 @@ typedef struct Geometry
   char geo_type[LINE_LEN];
   int icycle;
   int nz_cells;
-  double t_star;
+  double tot_tau;
+  double T_init;
+  double T_disk;
   double irho;
   double hz;
   double z_max;
@@ -63,7 +65,8 @@ typedef struct Grid
   double T_old;
   double kappa;
   double rho;
-  double trans_tau;
+  double cell_tau;
+  double tau_depth;
 } Grid;
 
 Grid *grid;

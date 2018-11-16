@@ -7,9 +7,9 @@ BIN_DIR ?= ./bin
 # Macros for CC and FCC
 CC = gcc
 FC = gfortran
-CFLAGS = -pedantic -Wall -O2
+CFLAGS = -pedantic -Wall -O2 
 CLIBS = -lm
-FFLAGS =
+FFLAGS = 
 FLIBS =
 
 # Useful macros
@@ -20,7 +20,7 @@ SRCS := $(shell find $(SRC_DIR) -name *.c -or -name *.f)
 OBJS := $(SRCS:%=$(OBJ_DIR)/%.o)
 
 # Compile the source and move to the bin directory
-$(TARGET_EXEC): $(OBJS)
+$(TARGET_EXEC): $(OBJS) 
 	$(FC) $(FFLAGS) $(OBJS) -o $@
 	$(MKDIR_P) $(BIN_DIR)
 	cp $@ $(OBJ_DIR)/$@
@@ -34,6 +34,8 @@ $(OBJ_DIR)/%.c.o: %.c
 $(OBJ_DIR)/%.f.o: %.f
 	$(MKDIR_P) $(dir $@)
 	$(FC) $(FFLAGS) $(FLIBS) -c $< -o $@
+
+all: clean $(TARGET_EXEC)
 
 # Clean up commands
 clean:

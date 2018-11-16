@@ -30,7 +30,7 @@ int init_grid (void)
   {
     grid[i].n = i;
     grid[i].z = i * geo.hz;
-    grid[i].T = grid[i].T_old = geo.t_star;
+    grid[i].T = grid[i].T_old = geo.T_init;
     grid[i].rho = density_profile_disk_height (grid[i].z);
   }
 
@@ -48,7 +48,7 @@ int init_grid (void)
   return SUCCESS;
 }
 
-// TODO: improve density profile
+// TODO: possibly improve density profile?
 double density_profile_disk_height (double z)
 {
   return geo.irho * exp (-1.0 * pow(z, 2.0) / (2.0 * pow (geo.z_max, 2.0)));
@@ -62,9 +62,12 @@ int get_grid_params (void)
   get_double ("z_max", &geo.z_max);
   if (geo.z_max < 0)
     Exit (2, "Invalid value for z_max: z_max >= 0\n");
-  get_double ("t_star", &geo.t_star);
-  if (geo.t_star < 0)
-    Exit (2, "Invalid value for t_star: t_star >= 0\n");
+  get_double ("T_init", &geo.T_init);
+  if (geo.T_init < 0)
+    Exit (2, "Invalid value for T_init: T_init >= 0\n");
+  get_double ("T_disk", &geo.T_disk);
+  if (geo.T_disk < 0)
+    Exit (2, "Invalid value for T_disk: T_disk >= 0\n");
   get_double ("irho", &geo.irho);
   if (geo.irho < 0)
     Exit (2, "Invalid value for irho: irho >= 0\n");

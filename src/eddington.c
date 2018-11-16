@@ -24,7 +24,12 @@ int eddington_iterations (void)
 {
   int n_iters = 0;
   int converged = FALSE;
+  double converge_fraction = 0.9;
   struct timespec edd_start;
+
+  get_double ("converge_fraction", &converge_fraction);
+  if (converge_fraction <= 0)
+    Exit (2, "Invalid value for converge_fraction: converge_fraction > 0");
 
   check_opacity_table ();
 
@@ -36,7 +41,7 @@ int eddington_iterations (void)
 
     eddington_update ();
 
-    if (report_convergence () >= 0.9)
+    if (report_convergence () >= converge_fraction)
       converged = TRUE;
 
     write_grid ();
@@ -45,7 +50,7 @@ int eddington_iterations (void)
   if (n_iters == MAX_ITER)
     Log (" - Ruh roh, max number of iterations reached!\n");
 
-  Log (" - Cells converged in %i iterations in", n_iters);
+  Log ("\n - Cells converged in %i iterations in", n_iters);
   print_duration (edd_start, "");
 
   return SUCCESS;
@@ -88,9 +93,17 @@ int update_cell_opacities (void)
     logR = (float) log10 (R);
     logT = (float) log10 (grid[i].T);
     if ((logR < MIN_LOG_R) || (logR > MAX_LOG_R))
-      Exit (19, "logR out of Opal table range for cell %i\n", grid[i].n);
+    {
+      Log_error ("\t- logR out of bounds: %f\n", logR);
+      Log_error ("\t- %f < logR < %f\n", MIN_LOG_R, MAX_LOG_R);
+      Exit (72, "logR out of Opal table range for cell %i\n", grid[i].n);
+    }
     if ((logT < MIN_LOG_T) || (logT > MAX_LOG_T))
-      Exit (19, "logT out of Opal table range for cell %i\n", grid[i].n);
+    {
+      Log_error ("\t- logT out of bounds: %f\n", logT);
+      Log_error ("\t- %f < logT < %f\n", MIN_LOG_T, MAX_LOG_T);
+      Exit (72, "logT out of Opal table range for cell %i\n", grid[i].n);
+    }
 
     /*
      * Call the Opal Opacity interpolation function -- see opal.f and flib.h
@@ -105,8 +118,6 @@ int update_cell_opacities (void)
   return SUCCESS;
 }
 
-double tot_tau;
-
 int find_vertical_tau (void)
 {
   int i;
@@ -114,16 +125,16 @@ int find_vertical_tau (void)
 
   Verbose_log ("\t\t- Calculating total vertical optical depth for cells\n");
 
-  tot_tau = 0.0;
+  geo.tot_tau = 0.0;
 
-  for (i = 0; i < geo.nz_cells; i++)
+  for (i = geo.nz_cells - 1; i > -1; i--)
   {
     dx = geo.hz;
-    grid[i].trans_tau = dx * grid[i].rho * grid[i].kappa;
-    tot_tau += grid[i].trans_tau;
+    grid[i].cell_tau = dx * grid[i].rho * grid[i].kappa;
+    grid[i].tau_depth = geo.tot_tau += grid[i].cell_tau;
   }
 
-  Log ("\t\t- Total vertical optical depth %e\n", tot_tau);
+  Log ("\t\t- Total vertical optical depth %e\n", geo.tot_tau);
 
   return SUCCESS;
 }
@@ -131,28 +142,41 @@ int find_vertical_tau (void)
 int update_cell_temperatures (void)
 {
   int i;
-  double T_inter;
+  double T_inter, Teff;
   double rtau = 0.0;
 
   Verbose_log ("\t\t- Updating cell temperatures\n");
 
-  for (i = geo.nz_cells; i > -1; i--)
+  Teff = update_Teff ();
+  Log ("\t\t- Effective temperature %e\n", Teff);
+
+  for (i = geo.nz_cells - 1; i > -1; i--)
   {
     grid[i].T_old = grid[i].T;
-    rtau += grid[i].trans_tau;
-    T_inter = eddington_approximation (grid[i].T, rtau);
+    rtau += grid[i].cell_tau;
+    T_inter = eddington_approximation (Teff, grid[i].tau_depth);
     grid[i].T = pow (T_inter, 0.25);
   }
 
   Verbose_log ("\t\t- Total rtau %e\n", rtau);
-  if (float_compare (rtau, tot_tau))
+  if (float_compare (rtau, geo.tot_tau))
   {
-    if (rtau > tot_tau)
-      Log_error ("\t  - rtau > tot_tau\n");
+    if (rtau > geo.tot_tau)
+      Log_error ("\t- rtau > tot_tau\n");
     else
-      Log_error ("\t  - rtau < tot_tau\n");
-    Log_error ("\t  - rtau = %e tot_tau = %e\n", rtau, tot_tau);
+      Log_error ("\t- rtau < tot_tau\n");
+    Log_error ("\t- rtau = %e tot_tau = %e\n", rtau, geo.tot_tau);
   }
 
   return SUCCESS;
+}
+
+double update_Teff (void)
+{
+  double Teff4;
+
+  // T_{eff}^4 = \frac{4T_{disk}^{4}}{3\tau_{tot} + 2}
+  Teff4 = (4 * pow (geo.T_disk, 4.0)) / (3 * geo.tot_tau + 2);
+
+  return pow (Teff4, 0.25);
 }

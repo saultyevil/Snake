@@ -35,6 +35,7 @@ int update_cell_opacities (void);
 int find_vertical_tau (void);
 int update_cell_temperatures (void);
 double eddington_approximation (double T_eff, double tau);
+double update_Teff (void);
 
 /*
  * grid_set.c

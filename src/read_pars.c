@@ -85,8 +85,6 @@ int get_double (char *par_name, double *value)
   
   if (!found_par)
     input_double (par_name, value);
-  else ; // TODO: remove
-    // Log_verbose ("%s %f\n", par_name, *value);
   
   return SUCCESS;
 }
