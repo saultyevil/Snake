@@ -8,8 +8,8 @@ geo_type :: planar
 nz_cells :: 50
 z_max :: 1e10
 T_init :: 1e5
-T_disk :: 1e6
-irho :: 1e-5
+T_disk :: 1e5
+irho :: 1e-8
 
 # Rosseland mean opacity parameters
 X :: 0.74
