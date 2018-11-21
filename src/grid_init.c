@@ -19,19 +19,23 @@
 
 int init_grid (void)
 {
-  int i;
-
-  get_grid_params ();
-  allocate_1d_grid ();
+  int read_from_file = FALSE;
 
   Verbose_log ("\t\t- Initialising grid cells\n");
 
-  for (i = 0; i < geo.nz_cells; i++)
+  get_initial_grid_params ();
+
+  get_optional_int ("rho_from_file", &read_from_file);
+  if (read_from_file)
   {
-    grid[i].n = i;
-    grid[i].z = i * geo.hz;
-    grid[i].T = grid[i].T_old = geo.T_init;
-    grid[i].rho = density_profile_disk_height (grid[i].z);
+    Log ("\t\t- Initialising density profile from file\n");
+    get_string ("density_file", geo.density_filepath);
+    density_from_file (geo.density_filepath);
+  }
+  else
+  {
+    Log ("\t\t- Initialising standard density profile\n");
+    standard_density_profile ();
   }
 
   /*
@@ -48,17 +52,8 @@ int init_grid (void)
   return SUCCESS;
 }
 
-// TODO: possibly improve density profile?
-double density_profile_disk_height (double z)
+int get_initial_grid_params (void)
 {
-  return geo.irho * exp (-1.0 * pow(z, 2.0) / (2.0 * pow (geo.z_max, 2.0)));
-}
-
-int get_grid_params (void)
-{
-  get_int ("nz_cells", &geo.nz_cells);
-  if (geo.nz_cells <= 0)
-    Exit (2, "Invalid value for nx_cells: nx_cells > 0\n");
   get_double ("z_max", &geo.z_max);
   if (geo.z_max < 0)
     Exit (2, "Invalid value for z_max: z_max >= 0\n");
@@ -68,9 +63,6 @@ int get_grid_params (void)
   get_double ("T_disk", &geo.T_disk);
   if (geo.T_disk < 0)
     Exit (2, "Invalid value for T_disk: T_disk >= 0\n");
-  get_double ("irho", &geo.irho);
-  if (geo.irho < 0)
-    Exit (2, "Invalid value for irho: irho >= 0\n");
 
   geo.hz = geo.z_max / geo.nz_cells;
 

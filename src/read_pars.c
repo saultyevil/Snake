@@ -74,8 +74,7 @@ int get_double (char *par_name, double *value)
     if (line[0] == '#' || line[0] == '\r' || line[0] == '\n')
       continue;
     if (sscanf (line, "%s %s %s", ini_par_name, par_sep, par_value) != 3)
-      Exit (7, "Syntax error on line %i in parameter file\n",
-            line_num);
+      Exit (7, "Syntax error on line %i in parameter file\n", line_num);
     if (strcmp (par_name, ini_par_name) == 0)
     {
       *value = atof (par_value);
@@ -110,8 +109,7 @@ int get_int (char *par_name, int *value)
     if (line[0] == '#' || line[0] == '\r' || line[0] == '\n')
       continue;
     if (sscanf (line, "%s %s %s", ini_par_name, par_sep, par_value) != 3)
-      Exit (7, "Syntax error on line %i in parameter file\n",
-            line_num);
+      Exit (7, "Syntax error on line %i in parameter file\n", line_num);
     if (strcmp (par_name, ini_par_name) == 0)
     {
       *value = atoi (par_value);
@@ -146,8 +144,7 @@ int get_string  (char *par_name, char *value)
     if (line[0] == '#' || line[0] == '\r' || line[0] == '\n')
       continue;
     if (sscanf (line, "%s %s %s", ini_par_name, par_sep, par_value) != 3)
-      Exit (7, "Syntax error on line %i in parameter file\n",
-            line_num);
+      Exit (7, "Syntax error on line %i in parameter file\n", line_num);
     if (strcmp (par_name, ini_par_name) == 0)
     {
       strcpy (value, par_value);

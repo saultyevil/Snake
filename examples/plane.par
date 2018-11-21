@@ -1,15 +1,17 @@
 ## 1d Plane Simulation
 # General parameters
 verbosity :: 1
-converge_fraction :: 0.95
+converge_fraction :: 1.0
 
 # Grid parameters
 geo_type :: planar
 nz_cells :: 50
 z_max :: 1e10
-T_init :: 1e5
-T_disk :: 1e5
-irho :: 1e-8
+T_init :: 6000
+T_disk :: 1600
+irho :: 1e-10
+rho_from_file :: 1
+density_file :: density.grid
 
 # Rosseland mean opacity parameters
 X :: 0.74

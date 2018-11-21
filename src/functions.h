@@ -26,6 +26,14 @@ double report_convergence (void);
 int init_default_pars (void);
 
 /*
+ * density_init.c
+ */
+
+int density_from_file (char *filepath);
+double density_profile_disk_height (double z);
+int standard_density_profile (void);
+
+/*
  * eddington.c
  */
 
@@ -38,13 +46,18 @@ double eddington_approximation (double T_eff, double tau);
 double update_Teff (void);
 
 /*
- * grid_set.c
+ * geo_init.c
+ */
+
+int init_geo (void);
+
+/*
+ * grid_init.c
  */
 
 int allocate_1d_grid (void);
-int get_grid_params (void);
+int get_initial_grid_params (void);
 int init_grid (void);
-double density_profile_disk_height (double z);
 
 /*
  * output.c
@@ -68,12 +81,6 @@ int input_string (char *par_name, char *value);
 int find_par_file (char *file_path);
 int init_parameter_file (char *par_filepath);
 int close_parameter_file (void);
-
-/*
- * setup.c
- */
-
-int init_geo (void);
 
 /*
  * time.c

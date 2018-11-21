@@ -17,7 +17,7 @@
 #define FALSE 0
 #define SUCCESS 0
 #define FAILURE 1
-#define LINE_LEN 256
+#define LINE_LEN 128
 #define MAX_ITER 500
 
 /*
@@ -40,6 +40,7 @@ int VERBOSITY;
 typedef struct Geometry
 {
   char geo_type[LINE_LEN];
+  char density_filepath[LINE_LEN];
   int icycle;
   int nz_cells;
   double tot_tau;

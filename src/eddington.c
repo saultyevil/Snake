@@ -94,12 +94,14 @@ int update_cell_opacities (void)
     logT = (float) log10 (grid[i].T);
     if ((logR < MIN_LOG_R) || (logR > MAX_LOG_R))
     {
+      Log_error ("\t- Cell %i:\n", grid[i].n);
       Log_error ("\t- logR out of bounds: %f\n", logR);
       Log_error ("\t- %f < logR < %f\n", MIN_LOG_R, MAX_LOG_R);
       Exit (72, "logR out of Opal table range for cell %i\n", grid[i].n);
     }
     if ((logT < MIN_LOG_T) || (logT > MAX_LOG_T))
     {
+      Log_error ("\t- Cell %i:\n", grid[i].n);
       Log_error ("\t- logT out of bounds: %f\n", logT);
       Log_error ("\t- %f < logT < %f\n", MIN_LOG_T, MAX_LOG_T);
       Exit (72, "logT out of Opal table range for cell %i\n", grid[i].n);
