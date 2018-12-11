@@ -21,7 +21,7 @@
 #include "flib.h"
 #include "opacities.h"
 
-int i2d (int col, int row)
+int i2d (int row, int col)
 {
   return row * N_COLS + col;
 }
@@ -39,15 +39,15 @@ int init_opacity_table (void)
     Exit (2, "Invalid choice for X =%f or Z = %f. X + Z <= 1.0", geo.X, geo.Z);
   geo.Y = 1.0 - geo.X - geo.Z;
 #else
-  rmo_table_2d = calloc (N_LOG_T * N_LOG_R, sizeof (*rmo_table_2d));
   get_string ("table_location", geo.opacity_table_filepath);
+  rmo_table_2d = calloc (N_ROWS * N_COLS, sizeof (*rmo_table_2d));
   read_2d_opact_table (geo.opacity_table_filepath, rmo_table_2d);
 #endif
 
   return SUCCESS;
 }
 
-int read_2d_opact_table (char *file_path, double *opacity_data)
+int read_2d_opact_table (char *file_path, double *opact_table)
 {
   int i, n, col, row;
   int skip_lines;
@@ -55,7 +55,7 @@ int read_2d_opact_table (char *file_path, double *opacity_data)
 
   if (!(opact_file = fopen (file_path, "r")))
     Exit (15, "Can't open 2d opacity %s\n", file_path);
-  Log ("Opacity table %s opened\n", file_path);
+  Log ("\t- Opacity table %s opened\n\n", file_path);
 
   /*
    * Skip the first two lines in the opacity data which are assumed to be the
@@ -77,12 +77,12 @@ int read_2d_opact_table (char *file_path, double *opacity_data)
 
   col = 0;
   row = 0;
-  while ((n = fscanf (opact_file, "%lf", &opacity_data[i2d (col, row)])) != EOF)
+  while ((n = fscanf (opact_file, "%lf", &opact_table[i2d (row, col)])) != EOF)
   {
     if (n != 1)
       Exit (11, "(%s:%s): fscanf failed to return a single number\n", __FILE__,
             __LINE__);
-    if (++col == N_LOG_R)
+    if (++col == N_COLS)
     {
       col = 0;
       row++;
@@ -94,6 +94,7 @@ int read_2d_opact_table (char *file_path, double *opacity_data)
 
 int opac_2d (double T6, double R, double *log_kappa)
 {
+  *log_kappa = 10.5;
   return SUCCESS;
 }
 
@@ -161,14 +162,14 @@ int update_cell_opacities (void)
         Log_error ("Cell %i:\n", grid[i].n);
         Log_error ("\tlogR out of bounds: %f\n", logR);
         Log_error ("\t%f < logR < %f\n", MIN_LOG_R, MAX_LOG_R);
-        Exit (72, "logR out of Opal table range for cell %i\n", grid[i].n);
+        Exit (72, "logR out of table range for cell %i\n", grid[i].n);
       }
       if ((logT < MIN_LOG_T) || (logT > MAX_LOG_T))
       {
         Log_error ("Cell %i:\n", grid[i].n);
         Log_error ("\tlogT out of bounds: %f\n", logT);
         Log_error ("\t%f < logT < %f\n", MIN_LOG_T, MAX_LOG_T);
-        Exit (72, "logT out of Opal table range for cell %i\n", grid[i].n);
+        Exit (72, "logT out of table range for cell %i\n", grid[i].n);
       }
 
       /*

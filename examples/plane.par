@@ -17,7 +17,7 @@ rho_from_file       :: 0
 density_file        :: data/density.dat
 
 # Tabulated opacity parameters
-table_location      :: data/largerT_opacity.dat
+table_location      :: largerT_opacity.dat
 X                   :: 0.74
 Z                   :: 0.02
 

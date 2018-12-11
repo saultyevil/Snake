@@ -27,9 +27,10 @@
  * Constants relating to the dimensions for the 2D opacity table
  */
 
-#define N_LOG_T 80
-#define N_LOG_R 18
-#define N_COLS N_LOG_R
+#define N_LOG_T 81
+#define N_LOG_R 17
+#define N_ROWS (N_LOG_T + 1)
+#define N_COLS (N_LOG_R + 1)
 
 /*
  * The array for holding the 2D table - note that this is a flattened 2D array
