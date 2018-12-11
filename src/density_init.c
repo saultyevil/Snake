@@ -6,10 +6,9 @@
  *
  * @date 21 Nov 2018
  *
- * @brief Functions designed to read in a density profile from file.
+ * @brief Functions designed to set the density for the 1D grid.
  *
  * @details
- *
  *
  * ************************************************************************** */
 
@@ -69,7 +68,7 @@ int density_from_file (char *filepath)
       continue;
 
     if (sscanf (line, "%s %s", z_coord, rho) != 2)
-      Exit (7, "Syntax error on line %i in denstiy file\n", line);
+      Exit (7, "Syntax error on line %i in density file\n", line);
 
     grid[cell].z = atof (z_coord);
     grid[cell].rho = atof (rho);

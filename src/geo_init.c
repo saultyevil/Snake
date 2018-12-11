@@ -18,12 +18,6 @@
 
 int init_geo (void)
 {
-  get_double ("X", &geo.X);
-  get_double ("Z", &geo.Z);
-  if (geo.X + geo.Z > 1)
-    Exit (2, "Invalid choice for X =%f or Z = %f. X + Z <= 1.0", geo.X, geo.Z);
-  geo.Y = 1.0 - geo.X - geo.Z;
-
   /*
    * Get the grid and model types and call the appropriate grid initialisation
    * routine -- assuming at some point we will try a cylindrical and spherical

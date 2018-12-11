@@ -38,8 +38,6 @@ int standard_density_profile (void);
  */
 
 int eddington_iterations (void);
-int eddington_update (void);
-int update_cell_opacities (void);
 int find_vertical_tau (void);
 int update_cell_temperatures (void);
 double eddington_approximation (double T_eff, double tau);
@@ -58,6 +56,16 @@ int init_geo (void);
 int allocate_1d_grid (void);
 int get_initial_grid_params (void);
 int init_grid (void);
+
+/*
+ * opacities.c
+ */
+
+int i2d (int col, int row);
+int init_opacity_table (void);
+int read_2d_opact_table (char *file_path, double *opacity_data);
+int opac_2d (double T6, double R, double *log_kappa);
+int update_cell_opacities (void);
 
 /*
  * output.c
@@ -95,7 +103,6 @@ int print_duration (struct timespec start_time, char *message);
  */
 
 int float_compare (double a, double b);
-int check_opacity_table (void);
 void Exit (int error_code, char *fmt, ...);
 int Log (char *fmt, ...);
 int Verbose_log (char *fmt, ...);

@@ -8,6 +8,7 @@ add_executable(snake
         src/functions.h src/main.c src/eddington.c src/snake.h
         src/read_pars.c src/geo_init.c src/time.c src/utility.c src/default_pars.c
         src/grid_init.c src/output.c src/convergence.c src/flib.h
-        src/opal.f src/density_init.c)
+        src/opal.f src/density_init.c src/opacities.c src/opacities.h)
 
+# add_definitions(-DOPAL)
 target_link_libraries(snake m)

@@ -16,7 +16,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#include <unistd.h>
 
 #include "snake.h"
 
@@ -28,15 +27,6 @@ int float_compare (double a, double b)
     return SUCCESS;
   else
     return FAILURE;
-}
-
-int check_opacity_table (void)
-{
-  Log ("\t- Checking for Opal Opacity Table GN93hz\n\n");
-  if (access ("GN93hz", F_OK) == -1)
-    Exit (15, "GN93hz not found in current directory.\n");
-
-  return SUCCESS;
 }
 
 int clean_up (void)

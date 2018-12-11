@@ -7,9 +7,9 @@ BIN_DIR ?= ./bin
 # Macros for CC and FCC
 CC = gcc
 FC = gfortran
-CFLAGS = -pedantic -Wall -O2 
+CFLAGS = -pedantic -Wall -O2 -DOPAL
 CLIBS = -lm
-FFLAGS = 
+FFLAGS = -O2
 FLIBS =
 
 # Useful macros

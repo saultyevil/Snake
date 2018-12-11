@@ -22,10 +22,10 @@
  *
  * ************************************************************************** */
 
-#define MIN_LOG_R -8.0
-#define MAX_LOG_R 1.0
-#define MIN_LOG_T 3.75
-#define MAX_LOG_T 8.7
+#define OP_MIN_LOG_R -8.0
+#define OP_MAX_LOG_R 1.0
+#define OP_MIN_LOG_T 3.75
+#define OP_MAX_LOG_T 8.7
 
 /*
  * As the provided interpolation routines use common blocks to return values of

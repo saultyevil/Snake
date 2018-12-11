@@ -41,6 +41,7 @@ typedef struct Geometry
 {
   char geo_type[LINE_LEN];
   char density_filepath[LINE_LEN];
+  char opacity_table_filepath[LINE_LEN];
   int icycle;
   int nz_cells;
   double tot_tau;
