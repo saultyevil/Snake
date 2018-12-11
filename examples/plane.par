@@ -10,10 +10,10 @@ converge_fraction   :: 1.0
 geo_type            :: planar
 nz_cells            :: 50
 z_max               :: 1e10
-T_init              :: 1600
-T_disk              :: 1600
-irho                :: 1e-11
-rho_from_file       :: 1
+T_init              :: 1e5
+T_disk              :: 5e5
+irho                :: 1e-8
+rho_from_file       :: 0
 density_file        :: data/density.dat
 
 # Tabulated opacity parameters
