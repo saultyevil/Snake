@@ -7,10 +7,10 @@ BIN_DIR ?= ./bin
 # Macros for CC and FCC
 CC = gcc
 FC = gfortran
-CFLAGS = -pedantic -Wall -O2 -DOPAL
-CLIBS = -lm
-FFLAGS = -O2
-FLIBS =
+CFLAGS = -pedantic -Wall -O2
+CLIBS = -lm -lgsl -lgslcblas -DDEBUG
+FFLAGS = -Wall -O2
+FLIBS = -lgsl -lgslcblas
 
 # Useful macros
 MKDIR_P ?= mkdir -p
@@ -21,7 +21,7 @@ OBJS := $(SRCS:%=$(OBJ_DIR)/%.o)
 
 # Compile the source and move to the bin directory
 $(TARGET_EXEC): $(OBJS) 
-	$(FC) $(FFLAGS) $(OBJS) -o $@
+	$(FC) $(OBJS) $(FFLAGS) $(FLIBS) -o $@
 	$(MKDIR_P) $(BIN_DIR)
 	cp $@ $(OBJ_DIR)/$@
 	mv $@ $(BIN_DIR)/$@
@@ -29,7 +29,7 @@ $(TARGET_EXEC): $(OBJS)
 # Create object files: note that the C and F object files are created separately
 $(OBJ_DIR)/%.c.o: %.c
 	$(MKDIR_P) $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(CLIBS) -c $< -o $@
 
 $(OBJ_DIR)/%.f.o: %.f
 	$(MKDIR_P) $(dir $@)

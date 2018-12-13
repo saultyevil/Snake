@@ -14,7 +14,7 @@
 
 #include <time.h>
 
-#include "snake.h"
+#include "../snake.h"
 
 int print_time_date (void)
 {

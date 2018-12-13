@@ -13,6 +13,8 @@
  *
  * ************************************************************************** */
 
+#include "error.h"
+
 #define TRUE 1
 #define FALSE 0
 #define SUCCESS 0
@@ -73,4 +75,4 @@ typedef struct Grid
 
 Grid *grid;
 
-#include "functions.h"
+#include "snake_functions.h"

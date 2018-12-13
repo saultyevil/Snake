@@ -1,3 +1,24 @@
+      subroutine opal(T6, R, X, Z)
+
+      implicit none
+ 
+      ! The numbers to feed the interpolation routines - we don't have any
+      ! error checking here because I'm lazy and this subroutine is meant to
+      ! only be called from a Python script
+      real, intent(in) :: T6, R, X, Z
+
+      ! Yay for returning variables by common blocks
+      real :: opact, dopact, dopacr, dopactd
+      common/e/ opact, dopact, dopacr, dopactd
+
+      ! Call the routine and write log(RMO) to stdout
+      ! subroutine opacgn93 (z,xh,t6,r)
+      call opacgn93(Z, X, T6, R)
+      write(*,*) opact
+
+      return
+      end
+
       subroutine instruct
 c-----VERSION of October 5, 1995-----------------------------------------
 c-----------------------------------------------------------------------

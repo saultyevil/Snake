@@ -17,7 +17,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "snake.h"
+#include "../snake.h"
 
 FILE *PAR_FILE_PTR;
 char par_file[LINE_LEN];

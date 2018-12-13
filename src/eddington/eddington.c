@@ -17,7 +17,7 @@
 #include <time.h>
 #include <math.h>
 
-#include "snake.h"
+#include "../snake.h"
 
 int eddington_iterations (void)
 {
@@ -26,11 +26,11 @@ int eddington_iterations (void)
   double converge_fraction = 0.9;
   struct timespec edd_start;
 
+  Log ("\n - Beginning Eddington iterations\n");
+
   get_double ("converge_fraction", &converge_fraction);
   if (converge_fraction <= 0)
     Exit (2, "Invalid value for converge_fraction: converge_fraction > 0");
-
-  init_opacity_table ();
 
   edd_start = get_time ();
 
@@ -61,7 +61,6 @@ double eddington_approximation (double T_eff, double tau)
 {
   return 0.75 * pow (T_eff, 4.0) * (tau + (2.0 / 3.0));
 }
-
 
 double update_Teff (void)
 { // T_{eff}^4 = \frac{4T_{disk}^{4}}{3\tau_{tot} + 2}

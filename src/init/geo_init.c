@@ -14,7 +14,7 @@
 
 #include <string.h>
 
-#include "snake.h"
+#include "../snake.h"
 
 int init_geo (void)
 {
@@ -31,7 +31,7 @@ int init_geo (void)
     init_grid ();
   }
   else
-    Exit (2, "Invalid choice %s for geo_type\n", geo.geo_type);
+    Exit (BAD_INPUT, "Invalid choice %s for geo_type\n", geo.geo_type);
 
   return SUCCESS;
 }

@@ -64,7 +64,7 @@ int init_grid (void);
 int i2d (int row, int col);
 int init_opacity_table (void);
 int read_2d_opact_table (char *file_path, double *opact_table);
-int opac_2d (double T6, double R, double *log_kappa);
+int opac_2d (double logT, double logR, double *logRMO);
 int update_cell_opacities (void);
 
 /*

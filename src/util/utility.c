@@ -17,9 +17,15 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-#include "snake.h"
+#include "../snake.h"
+#include "../opac/opac.h"
 
 double FLOAT_EPS = 1e-6;
+
+int i2d (int row, int col)
+{
+  return row * N_COLS + col;
+}
 
 int float_compare (double a, double b)
 {

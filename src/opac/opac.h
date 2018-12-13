@@ -36,4 +36,12 @@
  * The array for holding the 2D table - note that this is a flattened 2D array
  */
 
-double *rmo_table_2d;
+
+double *logR_table, *logT_table, *logRMO_table;
+
+
+/*
+ * functions
+ */
+
+int init_gsl_interp (void);

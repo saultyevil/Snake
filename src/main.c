@@ -50,14 +50,14 @@ int main (int argc, char **argv)
   get_optional_int ("verbosity", &verbosity);
   VERBOSITY = verbosity;
   if ((VERBOSITY != FALSE) && (VERBOSITY != TRUE))
-    Exit (2, "Invalid value for verbosity: verbosity should be 0 or 1\n");
+    Exit (BAD_INPUT, "Invalid value for verbosity: verbosity should be 0 or 1\n");
   
   Log (" - Beginning initialisation routines\n");
   init_default_pars ();
   init_outfile ();
   init_geo ();
+  Log (" - End of initialisation routines\n");
 
-  Log ("\n - Beginning Eddington iterations\n");
   eddington_iterations ();
 
   clean_up ();

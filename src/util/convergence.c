@@ -14,7 +14,7 @@
 
 #include <math.h>
 
-#include "snake.h"
+#include "../snake.h"
 
 int check_cell_convergence (void)
 {

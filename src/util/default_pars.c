@@ -15,7 +15,7 @@
 
 #include <string.h>
 
-#include "snake.h"
+#include "../snake.h"
 
 int init_default_pars (void)
 {
