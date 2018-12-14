@@ -50,8 +50,9 @@ int main (int argc, char **argv)
   get_optional_int ("verbosity", &verbosity);
   VERBOSITY = verbosity;
   if ((VERBOSITY != FALSE) && (VERBOSITY != TRUE))
-    Exit (BAD_INPUT, "Invalid value for verbosity: verbosity should be 0 or 1\n");
-  
+    Exit (UNKNOWN_PARAMETER,
+          "Invalid value for verbosity: verbosity should be 0 or 1\n");
+
   Log (" - Beginning initialisation routines\n");
   init_default_pars ();
   init_outfile ();

@@ -22,6 +22,7 @@
 FILE *PAR_FILE_PTR;
 char par_file[LINE_LEN];
 
+// Prompt the user to input the path to a parameter file
 int find_par_file (char *file_path)
 {
   int ierr;
@@ -29,30 +30,33 @@ int find_par_file (char *file_path)
   Log ("Please input the file path to the parameter file: ");
   ierr = scanf ("%s", file_path);
   if (ierr == EOF)
-    Exit (5, "Nothing entered for parameter file file path\n");
+    Exit (NO_INPUT, "Nothing entered for parameter file file path\n");
   
   return SUCCESS;
 }
 
+// Open up the parameter file
 int init_parameter_file (char *file_path)
 {
   strcpy (par_file, file_path);
   if (!(PAR_FILE_PTR = fopen (file_path, "r")))
-    Exit (2, "Could not find parameter file %s\n", file_path);
+    Exit (FILE_OPEN_ERR, "Could not find parameter file %s\n", file_path);
   Log (" - Loaded parameter file %s\n\n", file_path);
   
   return SUCCESS;
 }
 
+// Close the parameter file
 int close_parameter_file (void)
 {
   if (fclose (PAR_FILE_PTR))
-    Exit (2, "Couldn't close parameter file %s\n", par_file);
-  Verbose_log (" - Closed %s successfully\n", par_file);
+    Exit (FILE_CLOSE_ERR, "Couldn't close parameter file %s\n", par_file);
+  Log_verbose (" - Closed %s successfully\n", par_file);
 
   return SUCCESS;
 }
 
+// Read a double from file
 int get_double (char *par_name, double *value)
 {
   int line_num = 0;
@@ -74,7 +78,8 @@ int get_double (char *par_name, double *value)
     if (line[0] == '#' || line[0] == '\r' || line[0] == '\n')
       continue;
     if (sscanf (line, "%s %s %s", ini_par_name, par_sep, par_value) != 3)
-      Exit (7, "Syntax error on line %i in parameter file\n", line_num);
+      Exit (PAR_FILE_SYNTAX_ERR, "Syntax error on line %i in parameter file\n",
+            line_num);
     if (strcmp (par_name, ini_par_name) == 0)
     {
       *value = atof (par_value);
@@ -88,6 +93,7 @@ int get_double (char *par_name, double *value)
   return SUCCESS;
 }
 
+// Read an integer from file
 int get_int (char *par_name, int *value)
 {
   int line_num = 0;
@@ -109,7 +115,8 @@ int get_int (char *par_name, int *value)
     if (line[0] == '#' || line[0] == '\r' || line[0] == '\n')
       continue;
     if (sscanf (line, "%s %s %s", ini_par_name, par_sep, par_value) != 3)
-      Exit (7, "Syntax error on line %i in parameter file\n", line_num);
+      Exit (PAR_FILE_SYNTAX_ERR, "Syntax error on line %i in parameter file\n",
+            line_num);
     if (strcmp (par_name, ini_par_name) == 0)
     {
       *value = atoi (par_value);
@@ -123,6 +130,7 @@ int get_int (char *par_name, int *value)
   return SUCCESS;
 }
 
+// Read a string in from file
 int get_string  (char *par_name, char *value)
 {
   int line_num = 0;
@@ -144,7 +152,8 @@ int get_string  (char *par_name, char *value)
     if (line[0] == '#' || line[0] == '\r' || line[0] == '\n')
       continue;
     if (sscanf (line, "%s %s %s", ini_par_name, par_sep, par_value) != 3)
-      Exit (7, "Syntax error on line %i in parameter file\n", line_num);
+      Exit (PAR_FILE_SYNTAX_ERR, "Syntax error on line %i in parameter file\n",
+            line_num);
     if (strcmp (par_name, ini_par_name) == 0)
     {
       strcpy (value, par_value);
@@ -158,6 +167,7 @@ int get_string  (char *par_name, char *value)
   return SUCCESS;
 }
 
+// Get an optional integer from file
 int get_optional_int (char *par_name, int *value)
 {
   int line_num = 0;
@@ -178,7 +188,7 @@ int get_optional_int (char *par_name, int *value)
     if (line[0] == '#' || line[0] == '\r' || line[0] == '\n')
       continue;
     if (sscanf (line, "%s %s %s", ini_par_name, par_sep, par_value) != 3)
-      Exit (7, "Syntax error on line %i in parameter file\n",
+      Exit (PAR_FILE_SYNTAX_ERR, "Syntax error on line %i in parameter file\n",
             line_num);
     if (strcmp (par_name, ini_par_name) == 0)
       *value = atoi (par_value);
@@ -187,6 +197,7 @@ int get_optional_int (char *par_name, int *value)
   return SUCCESS;
 }
 
+// Prompt the user to input a double
 int input_double (char *par_name, double *value)
 {
   int ierr;
@@ -195,12 +206,13 @@ int input_double (char *par_name, double *value)
   Log ("%s not found, input value:\n%s (%f): ", par_name, par_name, *value);
   ierr = scanf ("%s", input_value);
   if (ierr == EOF)
-    Exit (9, "Nothing entered for input par\n");
+    Exit (NO_INPUT, "Nothing entered for input par\n");
   *value = atof (input_value);
   
   return SUCCESS;
 }
 
+// Prompt the user to input an int
 int input_int (char *par_name, int *value)
 {
   int ierr;
@@ -209,12 +221,13 @@ int input_int (char *par_name, int *value)
   Log ("%s not found, input value:\n%s (%i): ", par_name, par_name, *value);
   ierr = scanf ("%s", input_value);
   if (ierr == EOF)
-    Exit (9, "Nothing entered for input par\n");
+    Exit (NO_INPUT, "Nothing entered for input par\n");
   *value = atoi (input_value);
   
   return SUCCESS;
 }
 
+// Prompt the user to input a string
 int input_string (char *par_name, char *value)
 {
   int ierr;
@@ -223,7 +236,7 @@ int input_string (char *par_name, char *value)
   Log ("%s not found, input value: \n%s (%s): ", par_name, par_name, value);
   ierr = scanf ("%s", input_value);
   if (ierr == EOF)
-    Exit (9, "Nothing entered for input par\n");
+    Exit (NO_INPUT, "Nothing entered for input par\n");
   strcpy (value, input_value);
   
   return SUCCESS;

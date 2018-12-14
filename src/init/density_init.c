@@ -20,6 +20,23 @@
 
 FILE *density;
 
+// Allocate memory for the grid structure
+int allocate_1d_grid (void)
+{
+  long mem_req;
+
+  mem_req = geo.nz_cells * sizeof (*grid);
+
+  if (!(grid = calloc (geo.nz_cells, sizeof (*grid))))
+    Exit (MEM_ALLOC_ERR, "Could not allocate memory for grid of size %li\n",
+          mem_req);
+  Log ("\t\t- Allocated %1.2e bytes for %1.2e grid cells\n",
+       (double) mem_req, (double) geo.nz_cells);
+
+  return SUCCESS;
+}
+
+// Figure out the number of grid cell points in the density file
 int get_num_cells (void)
 {
   int n_cells = 0;
@@ -32,12 +49,17 @@ int get_num_cells (void)
     n_cells++;
   }
 
+  /*
+   * Send the file pointer back to the beginning of the file
+   */
+
   rewind (density);
 
   return n_cells;
 }
 
-// TODO: some form of interpolation might be nice?
+// Read in the density from file and assign to the grid cells
+// TODO: GSL interpolation for an arbitrary number of cells
 int density_from_file (char *filepath)
 {
   int i;
@@ -45,7 +67,7 @@ int density_from_file (char *filepath)
   char line[LINE_LEN], z_coord[LINE_LEN], rho[LINE_LEN];
 
   if (!(density = fopen (filepath, "r")))
-    Exit (19, "Unable to open density file %s\n", filepath);
+    Exit (FILE_OPEN_ERR, "Unable to open density file %s\n", filepath);
 
   /*
    * Get the number of density and z coordinates, initialise the grid and read
@@ -76,21 +98,29 @@ int density_from_file (char *filepath)
   }
 
   if (fclose (density))
-    Exit (19, "Unable to close density file %s\n", filepath);
+    Exit (FILE_CLOSE_ERR, "Unable to close density file %s\n", filepath);
 
   return SUCCESS;
 }
 
+// A density equation I found in some lecture notes
+double density_profile_disk_height (double z)
+{
+  return geo.irho * exp (-1.0 * pow(z, 2.0) / (2.0 * pow (geo.z_max, 2.0)));
+}
+
+// Generate a density profile based on a density equation I found in some
+// lecture notes
 int standard_density_profile (void)
 {
   int i;
 
   get_int ("nz_cells", &geo.nz_cells);
   if (geo.nz_cells <= 0)
-    Exit (2, "Invalid value for nx_cells: nx_cells > 0\n");
+    Exit (UNKNOWN_PARAMETER, "Invalid value for nx_cells: nx_cells > 0\n");
   get_double ("irho", &geo.irho);
   if (geo.irho < 0)
-    Exit (2, "Invalid value for irho: irho >= 0\n");
+    Exit (UNKNOWN_PARAMETER, "Invalid value for irho: irho >= 0\n");
 
   allocate_1d_grid ();
 
@@ -103,9 +133,4 @@ int standard_density_profile (void)
   }
 
   return SUCCESS;
-}
-
-double density_profile_disk_height (double z)
-{
-  return geo.irho * exp (-1.0 * pow(z, 2.0) / (2.0 * pow (geo.z_max, 2.0)));
 }

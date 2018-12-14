@@ -18,15 +18,17 @@
 #include <stdarg.h>
 
 #include "../snake.h"
-#include "../opac/opac.h"
+#include "../interp/2d_interp.h"
 
 double FLOAT_EPS = 1e-6;
 
+// Index an element for a 2D array which has been flattened into 1D
 int i2d (int row, int col)
 {
   return row * N_COLS + col;
 }
 
+// Compare if two floats are similar values
 int float_compare (double a, double b)
 {
   if (fabs (a - b) / (a + b) < FLOAT_EPS)
@@ -35,16 +37,23 @@ int float_compare (double a, double b)
     return FAILURE;
 }
 
+// Free up memory allocation and close files -- should be used at the end
 int clean_up (void)
 {
-  Verbose_log ("\n - Cleaning up memory and files before exit\n");
+  Log_verbose ("\n - Cleaning up memory and files before exit\n");
   free (grid);
   close_outfile ();
   close_parameter_file ();
 
+  #ifndef OPAL
+    clean_up_opac_tables ();
+    clean_up_gsl ();
+  #endif
+
   return SUCCESS;
 }
 
+// Exit from the program with an error code and description
 void Exit (int error_code, char *fmt, ...)
 {
   va_list arg_list;
@@ -62,6 +71,8 @@ void Exit (int error_code, char *fmt, ...)
   exit (error_code);
 }
 
+// Print to screen -- previously used when MPI existed and would only print to
+// the master process
 int Log (char *fmt, ...)
 {
   va_list arg_list;
@@ -73,7 +84,8 @@ int Log (char *fmt, ...)
   return SUCCESS;
 }
 
-int Verbose_log (char *fmt, ...)
+// Print to screen if verbose output is enabled
+int Log_verbose (char *fmt, ...)
 {
   if (VERBOSITY == TRUE)
   {
@@ -87,6 +99,7 @@ int Verbose_log (char *fmt, ...)
   return SUCCESS;
 }
 
+// Print a message to screen prefixed by Error:
 int Log_error (char *fmt, ...)
 {
   va_list arg_list;

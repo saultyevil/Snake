@@ -5,6 +5,7 @@
 # General parameters
 verbosity           :: 1
 converge_fraction   :: 1.0
+gsl_interpolation   :: bicubic
 
 # Grid parameters
 geo_type            :: planar

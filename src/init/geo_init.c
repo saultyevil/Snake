@@ -16,6 +16,7 @@
 
 #include "../snake.h"
 
+// Initialise the geometry of the problem
 int init_geo (void)
 {
   /*
@@ -31,7 +32,7 @@ int init_geo (void)
     init_grid ();
   }
   else
-    Exit (BAD_INPUT, "Invalid choice %s for geo_type\n", geo.geo_type);
+    Exit (UNKNOWN_PARAMETER, "Invalid choice %s for geo_type\n", geo.geo_type);
 
   return SUCCESS;
 }

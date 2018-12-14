@@ -1,6 +1,6 @@
 /* ***************************************************************************
  *
- * @file opacities.h
+ * @file 2d_interp.h
  *
  * @author E. J. Parkinson
  *
@@ -12,6 +12,10 @@
  * @details
  *
  * ************************************************************************** */
+
+
+
+#define LINE_LEN 128
 
 /*
  * Constants for the maximum and minimum values of logR and logT in the opacity
@@ -33,15 +37,19 @@
 #define N_COLS (N_LOG_R + 1)
 
 /*
- * The array for holding the 2D table - note that this is a flattened 2D array
+ * Global variables for interpolation and opacity
  */
 
+char gsl_interp_choice[LINE_LEN];
 
+// Pointers for tables
+double *buffer;
 double *logR_table, *logT_table, *logRMO_table;
 
-
 /*
- * functions
+ * This function is defined here because so it isn't used implicitly
  */
 
 int init_gsl_interp (void);
+
+#include "../snake_functions.h"

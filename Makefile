@@ -8,8 +8,8 @@ BIN_DIR ?= ./bin
 CC = gcc
 FC = gfortran
 CFLAGS = -pedantic -Wall -O2
-CLIBS = -lm -lgsl -lgslcblas -DDEBUG
-FFLAGS = -Wall -O2
+CLIBS = -lm -lgsl -lgslcblas # -DOPAL
+FFLAGS = -O2
 FLIBS = -lgsl -lgslcblas
 
 # Useful macros

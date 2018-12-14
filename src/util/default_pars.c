@@ -17,6 +17,7 @@
 
 #include "../snake.h"
 
+// Initialise various default various for global parameters which are read in
 int init_default_pars (void)
 {
   /*

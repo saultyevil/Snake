@@ -6,7 +6,7 @@
  *
  * @date 12 Dec 2018
  *
- * @brief
+ * @brief Definition for errors in the program.
  *
  * @details
  *
@@ -16,4 +16,7 @@
 #define FILE_CLOSE_ERR 2
 #define MEM_ALLOC_ERR 3
 #define TABLE_BOUNDS 4
-#define BAD_INPUT 5
+#define UNKNOWN_PARAMETER 5
+#define NO_INPUT 6
+#define PAR_FILE_SYNTAX_ERR 7
+#define FILE_IN_ERR 8

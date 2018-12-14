@@ -21,26 +21,52 @@
 FILE *outfile;
 char output_name[LINE_LEN];
 
+// Initialise the grid output file
 int init_outfile (void)
 {
   strcpy (output_name, "sgrid.out");
   Log ("\t- Initialising output file %s\n", output_name);
   if (!(outfile = fopen (output_name, "w")))
-    Exit (5, "Can't open file %s to write\n", output_name);
-  Verbose_log ("\t\t- Opened %s with write access\n", output_name);
+    Exit (FILE_IN_ERR, "Can't open file %s to write\n", output_name);
+  Log_verbose ("\t\t- Opened %s with write access\n", output_name);
 
   return SUCCESS;
 }
 
+// Close the grid output file
 int close_outfile (void)
 {
+/* ************************************************************************** */
+
+  /*
+   * Something odd is going on with memory allocations when I'm using GSL, i.e.
+   * when OPAL is not defined. When this happens, fclose fails and sends a
+   * SIGABT.
+   *
+   * free(): invalid next size (normal)
+   * Aborted (core dumped)
+   *
+   * I think this could be somewhat related to the weird memory issues I'm
+   * having when I'm allocating memory for logRMO_table. For now, the code will
+   * run fine if I only close the file when using Opal instead of GSL
+   * interpolation, hence I've added a very hack fix :^).
+   *
+   * TODO: figure out why SIGABT is being sent when OPAL is not defined.
+   */
+
+  #ifdef OPAL
   if (fclose (outfile))
-    Exit (5, "Can't close the output file\n");
-  Verbose_log (" - Closed %s successfully\n", output_name);
+    Exit (FILE_CLOSE_ERR, "Can't close the output file\n");
+  Log_verbose (" - Closed %s successfully\n", output_name);
+  #endif
+
+/* ************************************************************************** */
 
   return SUCCESS;
 }
 
+// Write to the grid output file. This should only need to be called and not
+// looped over and called for each cell
 int write_grid (void)
 {
   int i;
@@ -54,7 +80,7 @@ int write_grid (void)
            "# n_cell zcoord rho rosseland_opacity cell_optical_depth cumulative_tau temperature\n");
 
   for (i = 0; i < geo.nz_cells; i++)  // Write grid
-    fprintf (outfile, "%i %e %e %e %e %e %e\n", grid[i].n, grid[i].z,
+    fprintf (outfile, "%+i %+e %+e %+e %+e %+e %+e\n", grid[i].n, grid[i].z,
              grid[i].rho, grid[i].kappa, grid[i].cell_tau, grid[i].tau_depth,
              grid[i].T);
 

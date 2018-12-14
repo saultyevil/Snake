@@ -16,6 +16,7 @@
 
 #include "../snake.h"
 
+// Print the current time and date to screen
 int print_time_date (void)
 {
   char *c_time_string;
@@ -29,6 +30,7 @@ int print_time_date (void)
   return SUCCESS;
 }
 
+// Create a timespec structure for the current time
 struct timespec get_time (void)
 {
   struct timespec time;
@@ -38,6 +40,7 @@ struct timespec get_time (void)
   return time;
 }
 
+// Print the time difference between two timespec structs
 int print_duration (struct timespec start_time, char *message)
 {
   double td;
