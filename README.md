@@ -10,7 +10,7 @@ A more detailed overview of the general idea and algorithm can be found on this 
 
 ## Requirements
 
-Both a C and Fortran compiler are required, such as `gcc` and `gfortran`. 
+Both a C and Fortran compiler are required, such as `gcc` and `gfortran`. The GNU Science libraries are also required.
 
 ## Building
 
