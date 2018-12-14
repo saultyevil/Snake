@@ -71,15 +71,15 @@ int allocate_opacity_table (void)
 
   /*
    * Valgrind is very upset with this memory allocation and I'm not sure why...
-   * Address 0x64b0e68 is 0 bytes after a block of size 11,016 alloc'd
+   * Address xxxxx is 0 bytes after a block of size 11,016 alloc'd
    *
-   * This seems to be causing trouble when I try to close the grid output file
-   * as well :-(
-   *
-   * TODO: figure out why the above error occurs
+   * 14/12/18: I changed from N_LOG_R to N_COLS and N_LOG_T to N_ROWS and this
+   * seems to stop the problems and things looks the same...? Hasn't fixed the
+   * error with GSL interp adding 0 to the diagonals though. I still suspect
+   * that there may be more underlying issues...
    */
 
-  if (!(logRMO_table = calloc (N_LOG_R * N_LOG_T, sizeof (*logRMO_table))))
+  if (!(logRMO_table = calloc (N_COLS * N_ROWS, sizeof (*logRMO_table))))
     Exit (MEM_ALLOC_ERR, "Unable to allocate memory for logRMO_table\n");
 
 /* ************************************************************************** */
@@ -240,6 +240,7 @@ int init_gsl_interp (void)
    * Temporary hacky fix for GSL until I work out why the diagonal elements in
    * the GSL routine are read in as being 0. Most likely a weird memory issues
    * with incorrect dimensions or some other awful thing
+   *
    * TODO: figure out why GSL isn't working how I want it to
    */
 

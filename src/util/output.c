@@ -51,14 +51,15 @@ int close_outfile (void)
    * run fine if I only close the file when using Opal instead of GSL
    * interpolation, hence I've added a very hack fix :^).
    *
-   * TODO: figure out why SIGABT is being sent when OPAL is not defined.
+   * 14/12/18: something I changed about how much memory logRMO_table is
+   * allocated fixed this problem.
    */
 
-  #ifdef OPAL
+
   if (fclose (outfile))
     Exit (FILE_CLOSE_ERR, "Can't close the output file\n");
   Log_verbose (" - Closed %s successfully\n", output_name);
-  #endif
+
 
 /* ************************************************************************** */
 

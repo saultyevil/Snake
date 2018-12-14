@@ -102,7 +102,7 @@ int update_cell_opacities (void)
       opac_2d (logT, logR, &logRMO);
 
       #ifdef DEBUG
-        Log ("GSL interpolated logRMO = %f\n\n", *logRMO);
+        Log ("GSL interpolated logRMO = %f\n", logRMO);
       #endif
     #endif
 
