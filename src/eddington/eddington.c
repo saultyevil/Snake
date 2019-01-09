@@ -70,7 +70,7 @@ int update_cell_temperatures (void)
   Log_verbose ("\t\t- Updating cell temperatures\n");
 
   Teff = update_Teff ();
-  Log ("\t\t- Effective temperature %e\n", Teff);
+  Log ("\t\t- Effective temperature %e K\n", Teff);
 
   for (i = geo.nz_cells - 1; i > -1; i--)
   {
@@ -89,6 +89,13 @@ int update_cell_temperatures (void)
       Log_error ("\t- rtau < tot_tau\n");
     Log_error ("\t- rtau = %e tot_tau = %e\n", rtau, geo.tot_tau);
   }
+
+  return SUCCESS;
+}
+
+// Initialise the opacity tables
+int init_opac (void)
+{
 
   return SUCCESS;
 }

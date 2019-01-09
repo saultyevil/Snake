@@ -18,8 +18,15 @@
 #include "../snake.h"
 
 // Initialise various default various for global parameters which are read in
-int init_default_pars (void)
+int init_snake (void)
 {
+  /*
+   * System parameters
+   */
+
+  modes.opal = FALSE;
+  modes.low_temp = FALSE;
+
   /*
    * Geometry parameters for planar atmosphere
    */

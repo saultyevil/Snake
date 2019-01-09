@@ -18,11 +18,8 @@
 #include "../snake.h"
 
 // Get the grid parameters from file
-int get_initial_grid_params (void)
+int get_temp_params (void)
 {
-  get_double ("z_max", &geo.z_max);
-  if (geo.z_max < 0)
-    Exit (UNKNOWN_PARAMETER, "Invalid value for z_max: z_max >= 0\n");
   get_double ("T_init", &geo.T_init);
   if (geo.T_init < 0)
     Exit (UNKNOWN_PARAMETER, "Invalid value for T_init: T_init >= 0\n");
@@ -42,7 +39,7 @@ int init_grid (void)
 
   Log_verbose ("\t\t- Initialising grid cells\n");
 
-  get_initial_grid_params ();
+  get_temp_params ();
 
   get_optional_int ("rho_from_file", &read_from_file);
   if (read_from_file)

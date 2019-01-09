@@ -22,11 +22,9 @@ $ make snake
 
 Once built, the executable is stored in the `bin` directory. It is recommended that you add this directory to you `PATH` variable.
 
-Snake can be built with the compiler flag `-DOPAL` which will build Snake so it only uses the Opal Opacities tables, which limits the code to temperatures above ~5600K. However, if Snake is compiled without this flag, then a table created by the script `create_opacity_table.py` can be used instead which should have a larger temperature range.
-
 ## Usage
 
-To execute a simulation, the opacity tables `GN93hz` is required to be in the working directory. The simulation executable, `snake`, also requires a parameter file to be provided as a command line argument, e.g., 
+To execute a simulation, an opacity table, such as the Opal `GN93hz`, is required to be in the working directory. The simulation executable, `snake`, also requires a parameter file to be provided as a command line argument, e.g., 
 
 ```bash
 $ snake plane.par
@@ -37,6 +35,8 @@ Example parameter files, and the `GN93Hz` tables can be found in the `examples` 
 ## Tabulated Opacities
 
 To calculate the Rosseland Mean Opacity, either the Rosseland Mean Opacity is found using 4D interpolation provided by the Opal Opacity tables, or the Rosseland Mean Opacity is calculated using 2D interpolation over a table created by the `create_opacity_table.py` script located in the `libs` directory. Usage of this script can be found by invoking it with the `-h` switch.
+
+When specifying the opacity table to use, if `GN93Hz` is given (the Opal table), then Snake will calculate the Rosseland Mean Opacity using 4D interpolation from Opal over the variables R, T, X and Z. Providing any other table name will result in 2D interpolation using GSL over the variables R and T. 
 
 ## Acknowledgements 
  

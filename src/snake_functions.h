@@ -36,7 +36,7 @@ int get_string (char *par_name, char *value);
 struct timespec get_time (void);
 // I
 int i2d (int row, int col);
-int init_default_pars (void);
+int init_snake (void);
 int init_geo (void);
 int init_grid (void);
 int init_opacity_table (void);
@@ -55,7 +55,6 @@ int Log_verbose (char *fmt, ...);
 int print_duration (struct timespec start_time, char *message);
 int print_time_date (void);
 // R
-int read_2d_opact_table (char *file_path);
 double report_convergence (void);
 // S
 int standard_density_profile (void);

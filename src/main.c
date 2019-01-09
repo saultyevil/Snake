@@ -54,7 +54,7 @@ int main (int argc, char **argv)
           "Invalid value for verbosity: verbosity should be 0 or 1\n");
 
   Log (" - Beginning initialisation routines\n");
-  init_default_pars ();
+  init_snake ();
   init_outfile ();
   init_geo ();
   Log (" - End of initialisation routines\n");

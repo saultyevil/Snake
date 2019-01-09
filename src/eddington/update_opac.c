@@ -37,7 +37,8 @@ int update_cell_opacities (void)
       Log ("logT = %f logR = %f\n", logT, logR);
     #endif
 
-    #ifdef OPAL
+    if (modes.opal)
+    {
       /*
        * Due to how my lazy Fortran interoparability works, we have to first
        * convert these variables to floats, otherwise we will segfault.
@@ -67,7 +68,9 @@ int update_cell_opacities (void)
 
       /*
        * Call the Opal Opacity interpolation function -- see opal.f and flib.h
-       * for more detailed description of how this works
+       * for more detailed description of how this works. Note that in Opal,
+       * the opacities are returned via common block, hence logRMO is taken from
+       * the struct e_ as the returning common block in Opal is named e
        */
 
       opacgn93_ (&Z, &X, &T6f, &Rf);
@@ -76,7 +79,9 @@ int update_cell_opacities (void)
       #ifdef DEBUG
         Log ("opal interpolated logRMO = %f\n", logRMO);
       #endif
-    #else
+    }
+    else if (modes.low_temp)
+    {
       /*
        * Ensure that T and R are in the table range
        */
@@ -104,7 +109,7 @@ int update_cell_opacities (void)
       #ifdef DEBUG
         Log ("GSL interpolated logRMO = %f\n", logRMO);
       #endif
-    #endif
+    }
 
     /*
      * Finally update the opacity of the grid cell

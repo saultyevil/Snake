@@ -58,13 +58,41 @@ int get_num_cells (void)
   return n_cells;
 }
 
+// Reverse the order of an array -- assuming that it is ordered in some way
+int reverse_sort (void)
+{
+  int i, j;
+  double *orig_z, *orig_rho;
+
+  orig_z = calloc (geo.nz_cells, sizeof (*orig_z));
+  orig_rho = calloc (geo.nz_cells, sizeof (*orig_rho));
+
+  for (i = 0; i < geo.nz_cells; i++)
+  {
+    orig_z[i] = grid[i].z;
+    orig_rho[i] = grid[i].rho;
+  }
+
+  for (i = geo.nz_cells - 1, j = 0; i >=  0; i--, j++)
+  {
+    grid[j].z = orig_z[i];
+    grid[j].rho = orig_rho[i];
+  }
+
+  free (orig_z);
+  free (orig_rho);
+
+  return SUCCESS;
+}
+
 // Read in the density from file and assign to the grid cells
 // TODO: GSL interpolation for an arbitrary number of cells
 int density_from_file (char *filepath)
 {
   int i;
   int cell = 0, line_num = 0;
-  char line[LINE_LEN], z_coord[LINE_LEN], rho[LINE_LEN];
+  char line[LINE_LEN];
+  double z_coord, rho;
 
   if (!(density = fopen (filepath, "r")))
     Exit (FILE_OPEN_ERR, "Unable to open density file %s\n", filepath);
@@ -75,6 +103,7 @@ int density_from_file (char *filepath)
    */
 
   geo.nz_cells = get_num_cells ();
+
   allocate_1d_grid ();
 
   for (i = 0; i < geo.nz_cells; i++)
@@ -89,13 +118,21 @@ int density_from_file (char *filepath)
     if (line[0] == '#' || line[0] == '\r' || line[0] == '\n')
       continue;
 
-    if (sscanf (line, "%s %s", z_coord, rho) != 2)
-      Exit (7, "Syntax error on line %i in density file\n", line);
+    if (sscanf (line, "%lf %lf", &z_coord, &rho) != 2)
+      Exit (7, "Syntax error on line %i in density file\n", line_num);
 
-    grid[cell].z = atof (z_coord);
-    grid[cell].rho = atof (rho);
+    grid[cell].z = z_coord;
+    grid[cell].rho = rho;
     cell++;
   }
+
+  /*
+   * If the density grid is in descending order rather than ascending, reverse
+   * the order
+   */
+
+  if (grid[0].z > grid[1].z)
+    reverse_sort ();
 
   if (fclose (density))
     Exit (FILE_CLOSE_ERR, "Unable to close density file %s\n", filepath);
@@ -115,6 +152,9 @@ int standard_density_profile (void)
 {
   int i;
 
+  get_double ("z_max", &geo.z_max);
+  if (geo.z_max < 0)
+    Exit (UNKNOWN_PARAMETER, "Invalid value for z_max: z_max >= 0\n");
   get_int ("nz_cells", &geo.nz_cells);
   if (geo.nz_cells <= 0)
     Exit (UNKNOWN_PARAMETER, "Invalid value for nx_cells: nx_cells > 0\n");

@@ -5,20 +5,20 @@
 # General parameters
 verbosity           :: 1
 converge_fraction   :: 1.0
-gsl_interpolation   :: bicubic
 
 # Grid parameters
 geo_type            :: planar
 nz_cells            :: 50
 z_max               :: 1e10
-T_init              :: 1600
-T_disk              :: 1600
-irho                :: 1e-5
+T_init              :: 1.6e4
+T_disk              :: 1.6e4
+# irho                :: 1e-5
 rho_from_file       :: 1
 density_file        :: data/density.dat
 
 # Tabulated opacity parameters
-table_location      :: largerT_opacity.dat
+# gsl_interpolation   :: bicubic
+opacity_table       :: GN93Hz
 X                   :: 0.70
 Z                   :: 0.02
 

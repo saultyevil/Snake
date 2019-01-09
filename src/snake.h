@@ -34,6 +34,19 @@ int VERBOSITY;
 
 #define PLANAR "planar"
 #define SPHERICAL "spherical"
+#define OPAL_FILENAME "GN93hz"
+
+/*
+ * The structure to hold various settings and modes
+ */
+
+typedef struct Modes
+{
+  int opal;
+  int low_temp;
+} Modes;
+
+Modes modes;
 
 /*
  * The structure to hold various geometry parameters

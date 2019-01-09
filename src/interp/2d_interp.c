@@ -23,28 +23,6 @@
 gsl_interp2d *interp;
 gsl_interp_accel *logR_accel, *logT_accel;
 
-// Initialise the opacity table which is going to be used
-int init_opacity_table (void)
-{
-  #ifdef OPAL
-    Log ("\t- Checking for Opal Opacity Table GN93hz\n");
-      if (access ("GN93hz", F_OK) == -1)
-        Exit (15, "GN93hz not found in current directory.\n");
-
-    get_double ("X", &geo.X);
-    get_double ("Z", &geo.Z);
-    if (geo.X + geo.Z > 1)
-      Exit (2, "Invalid choice for X =%f or Z = %f. X + Z <= 1.0", geo.X, geo.Z);
-    geo.Y = 1.0 - geo.X - geo.Z;
-  #else
-    get_string ("table_location", geo.opacity_table_filepath);
-    read_2d_opact_table (geo.opacity_table_filepath);
-    init_gsl_interp ();
-  #endif
-
-  return SUCCESS;
-}
-
 // Allocate memory for the opacity tables
 int allocate_opacity_table (void)
 {
@@ -87,6 +65,13 @@ int allocate_opacity_table (void)
   return SUCCESS;
 }
 
+// Check that the 2d opacity table is the correct dimensions, i.e. it has been
+// generated from the included Python script
+int check_2d_opact_table (void)
+{
+  return SUCCESS;
+}
+
 // Read the 2D opacity table into memory
 int read_2d_opact_table (char *file_path)
 {
@@ -97,6 +82,10 @@ int read_2d_opact_table (char *file_path)
   if (!(opact_file = fopen (file_path, "r")))
     Exit (FILE_OPEN_ERR, "Can't open opacity table %s\n", file_path);
   Log ("\t- Opacity table %s opened\n", file_path);
+
+  if (check_2d_opact_table ())
+    Exit (INVALID_TABLE, "Don't know how to read opacity table %s",
+          geo.opacity_table_filepath);
 
   allocate_opacity_table ();
 
@@ -272,6 +261,45 @@ int clean_up_gsl (void)
   gsl_interp_accel_free (logR_accel);
   gsl_interp_accel_free (logT_accel);
   Log_verbose (" - GSL routines cleaned up successfully\n");
+
+  return SUCCESS;
+}
+
+// Initialise the opacity table which is going to be used
+int init_opacity_table (void)
+{
+  /*
+   * If the opacity table is the default Opal table, then, for now, we will
+   * use the Opal Fortran routines
+   *    - OPAL_FILENAME = GN93hz
+   */
+
+  get_string ("opacity_table", geo.opacity_table_filepath);
+  if (!strcmp (geo.opacity_table_filepath, OPAL_FILENAME))
+    modes.opal = TRUE;
+  else
+    modes.low_temp = TRUE;
+
+  if (modes.opal)
+  {
+    Log ("\t- Checking for Opal Opacity Table GN93hz\n");
+    if (access (OPAL_FILENAME, F_OK) == -1)
+      Exit (15, "%s not found in current directory.\n", OPAL_FILENAME);
+
+    get_double ("X", &geo.X);
+    get_double ("Z", &geo.Z);
+    if (geo.X + geo.Z > 1)
+      Exit (INVALID_VALUE, "Invalid choice for X =%f or Z = %f. X + Z <= 1.0",
+            geo.X, geo.Z);
+    geo.Y = 1.0 - geo.X - geo.Z;
+  }
+  else if (modes.low_temp)
+  {
+    read_2d_opact_table (geo.opacity_table_filepath);
+    init_gsl_interp ();
+  }
+  else
+    Exit (UNKNOWN_MODE, "Unknown opacity mode\n");
 
   return SUCCESS;
 }

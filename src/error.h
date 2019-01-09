@@ -20,3 +20,6 @@
 #define NO_INPUT 6
 #define PAR_FILE_SYNTAX_ERR 7
 #define FILE_IN_ERR 8
+#define UNKNOWN_MODE 9
+#define INVALID_VALUE 10
+#define INVALID_TABLE 11
