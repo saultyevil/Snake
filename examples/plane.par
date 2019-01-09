@@ -18,7 +18,7 @@ density_file        :: data/density.dat
 
 # Tabulated opacity parameters
 # gsl_interpolation   :: bicubic
-opacity_table       :: GN93Hz
+opacity_table       :: GN93hz
 X                   :: 0.70
 Z                   :: 0.02
 

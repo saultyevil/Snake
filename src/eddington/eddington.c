@@ -16,6 +16,7 @@
 
 #include <time.h>
 #include <math.h>
+#include <stdlib.h>
 
 #include "../snake.h"
 
@@ -30,7 +31,8 @@ double eddington_approximation (double T_eff, double tau)
 // T_{eff}^4 = \frac{4T_{disk}^{4}}{3\tau_{tot} + 2}
 double update_Teff (void)
 {
-  return pow ((4 * pow (geo.T_disk, 4.0)) / (3 * geo.tot_tau + 2), 0.25);
+  return pow ((4 * pow (geo.T_disk, 4.0)) / (3 * (geo.tot_tau + 2.0 / 3.0)),
+              0.25);
 }
 
 // Find the total amount of optical depth from bottom to top of the Eddington
@@ -80,7 +82,10 @@ int update_cell_temperatures (void)
     grid[i].T = pow (T_inter, 0.25);
   }
 
-  Log_verbose ("\t\t- Total rtau %e\n", rtau);
+  #ifdef DEBUG
+    Log ("\t\t- Total rtau %e\n", rtau);
+  #endif
+
   if (float_compare (rtau, geo.tot_tau))
   {
     if (rtau > geo.tot_tau)
@@ -93,9 +98,47 @@ int update_cell_temperatures (void)
   return SUCCESS;
 }
 
-// Initialise the opacity tables
-int init_opac (void)
+// Calculate the hydrogen column density
+int calculate_column_density (void)
 {
+  int i;
+  double *nh, *ne;
+  double dz, nh_col, ne_col;
+  double m_proton = 1.6726219e-24;  // grams
+  double m_electon = 9.10938e-28;   // grams
+
+  nh = calloc (geo.nz_cells, sizeof (*nh));
+  ne = calloc (geo.nz_cells, sizeof (*ne));
+
+  for (i = 0; i < geo.nz_cells; i++)
+  {
+    nh[i] = grid[i].rho / m_proton;
+    ne[i] = grid[i].rho / m_electon;
+  }
+
+  #ifdef DEBUG
+    for (i = 0; i < geo.nz_cells; i++)
+      Log ("Grid[%i].rho = %e\n          nh = %e\n          ne = %e\n", i,
+           grid[i].rho, nh[i], ne[i]);
+  #endif
+
+  nh_col = ne_col = 0;
+  for (i = 0; i < geo.nz_cells; i++)
+  {
+    if (i == 0)
+      dz = grid[i].z;
+    else
+      dz = grid[i].z - grid[i - 1].z;
+
+    nh_col += dz * nh[i];
+    ne_col += dz * ne[i];
+  }
+
+  Log ("\t\t- H column density %e cm^-2\n", nh_col);
+  Log ("\t\t- e- column density %e cm^-2\n", ne_col);
+
+  free (nh);
+  free (ne);
 
   return SUCCESS;
 }
@@ -123,6 +166,7 @@ int eddington_iterations (void)
     update_cell_opacities ();
     find_vertical_tau ();
     update_cell_temperatures ();
+    calculate_column_density ();
 
     if (report_convergence () >= converge_fraction)
       converged = TRUE;

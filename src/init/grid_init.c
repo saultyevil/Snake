@@ -35,14 +35,11 @@ int get_temp_params (void)
 // Main control function for initialising the grid cells
 int init_grid (void)
 {
-  int read_from_file = FALSE;
-
   Log_verbose ("\t\t- Initialising grid cells\n");
 
   get_temp_params ();
 
-  get_optional_int ("rho_from_file", &read_from_file);
-  if (read_from_file)
+  if (check_for_parameter ("opacity_table"))
   {
     Log ("\t\t- Initialising density profile from file\n");
     get_string ("density_file", geo.density_filepath);

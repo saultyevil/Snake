@@ -14,6 +14,7 @@
  * ************************************************************************** */
 
 // C
+int check_for_parameter (char *par_name);
 int clean_up (void);
 int clean_up_gsl (void);
 int clean_up_opac_tables (void);

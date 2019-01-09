@@ -241,3 +241,33 @@ int input_string (char *par_name, char *value)
   
   return SUCCESS;
 }
+
+// Check if a parameter exists in the parameter file
+int check_for_parameter (char *par_name)
+{
+  int line_num = 0;
+  char line[LINE_LEN], ini_par_name[LINE_LEN], par_sep[LINE_LEN],
+    par_value[LINE_LEN];
+
+  /*
+   * Iterate through the lines in the file and attempt to find a match between
+   * the first column labels, ini_par_name, and the parameter name hoping
+   * to be set a value, par_name.
+   */
+
+  rewind (PAR_FILE_PTR);
+
+  while (fgets (line, LINE_LEN, PAR_FILE_PTR) != NULL)
+  {
+    line_num++;
+    if (line[0] == '#' || line[0] == '\r' || line[0] == '\n')
+      continue;
+    if (sscanf (line, "%s %s %s", ini_par_name, par_sep, par_value) != 3)
+      Exit (PAR_FILE_SYNTAX_ERR, "Syntax error on line %i in parameter file\n",
+            line_num);
+    if (strcmp (par_name, ini_par_name) == 0)
+      return (int) strlen (par_name);
+  }
+
+  return FAILURE;
+}

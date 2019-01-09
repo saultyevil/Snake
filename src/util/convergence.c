@@ -18,12 +18,12 @@
 
 // Iterate over each grid cell and figure out how much the temperature has
 // changed between cycles
-// TODO: remove hardcoded convergence limit
+// TODO: remove hardcoded convergence limit (eps)
 int check_cell_convergence (void)
 {
   int i;
   int n_converged = 0;
-  double eps = 0.05;
+  double eps = 0.025;
 
   for (i = 0; i  < geo.nz_cells; i++)
     if (fabs ((grid[i].T_old - grid[i].T) / (grid[i].T_old + grid[i].T)) < eps)
@@ -40,8 +40,8 @@ double report_convergence (void)
 
   n_converged = check_cell_convergence ();
   c_fraction = (double) n_converged / geo.nz_cells;
-  Log_verbose ("\t\t- %i cells out of %i converged (%1.3f)\n", n_converged,
-               geo.nz_cells, c_fraction);
+  Log ("\t\t- %i cells out of %i converged (%1.3f)\n", n_converged,
+       geo.nz_cells, c_fraction);
 
   return c_fraction;
 }
