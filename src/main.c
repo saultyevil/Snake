@@ -23,6 +23,12 @@ int main (int argc, char **argv)
   char par_file_path[LINE_LEN];
   int verbosity = FALSE;
 
+  /*
+   * Set flag that the logfile is needed to be initialised
+   */
+
+  INIT_LOGFILE = TRUE;
+
   start_time = get_time ();
 
   Log ("\n--------------------------------------------------------------\n\n");
@@ -61,11 +67,11 @@ int main (int argc, char **argv)
 
   eddington_iterations ();
 
-  clean_up ();
-
   Log ("\n--------------------------------------------------------------\n\n");
   print_duration (start_time, " Simulation completed in");
   Log ("\n--------------------------------------------------------------\n\n");
+
+  clean_up ();
 
   return SUCCESS;
 }

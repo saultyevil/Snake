@@ -26,6 +26,7 @@
  * Global variables
  */
 
+int INIT_LOGFILE;
 int VERBOSITY;
 
 /*
