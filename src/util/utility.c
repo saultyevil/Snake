@@ -79,6 +79,7 @@ int clean_up (void)
 
   close_logfile ();
 
+
   return SUCCESS;
 }
 

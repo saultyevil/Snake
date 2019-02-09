@@ -30,6 +30,7 @@ int update_cell_opacities (void)
 
   for (i = 0; i < geo.nz_cells; i++)
   {
+    logRMO = -9.999;
     logT = log10 (grid[i].T);
     logR = log10 (grid[i].rho / pow (grid[i].T * 1e-6, 3.0));
 
@@ -40,7 +41,7 @@ int update_cell_opacities (void)
     if (modes.opal)
     {
       /*
-       * Due to how my lazy Fortran interoparability works, we have to first
+       * Due to how my lazy Fortran interoperability works, we have to first
        * convert these variables to floats, otherwise we will segfault.
        */
 
@@ -57,13 +58,15 @@ int update_cell_opacities (void)
       {
         Log_error ("Cell %i: logR out of bounds: %f\n", grid[i].n, logR);
         Log_error ("\t%f < logR < %f\n", OP_MIN_LOG_R, OP_MAX_LOG_R);
-        Exit (TABLE_BOUNDS, "logR out of Opal table range for cell %i\n", grid[i].n);
+        Exit (TABLE_BOUNDS, "logR out of Opal table range for cell %i\n",
+              grid[i].n);
       }
       if ((logT < OP_MIN_LOG_T) || (logT > OP_MAX_LOG_T))
       {
         Log_error ("Cell %i: logT out of bounds: %f\n", grid[i].n, logT);
         Log_error ("\t%f < logT < %f\n", OP_MIN_LOG_T, OP_MAX_LOG_T);
-        Exit (TABLE_BOUNDS, "logT out of Opal table range for cell %i\n", grid[i].n);
+        Exit (TABLE_BOUNDS, "logT out of Opal table range for cell %i\n",
+              grid[i].n);
       }
 
       /*
@@ -112,10 +115,21 @@ int update_cell_opacities (void)
     }
 
     /*
+     * Some basic error checking to check to see if logRMO was changed. The
+     * opacity table should not reach -9.999, so logRMO was initialised as this
+     * value and below it is checked to ensure that it is no longer -9.999
+     */
+
+    if (logRMO == -9.999)
+      Exit (NO_LOG_RMO_RETURNED, "logRMO for cell %i was not updated\n", i);
+
+    /*
      * Finally update the opacity of the grid cell
      */
 
-    grid[i].kappa = pow (10.0, logRMO);
+    if ((grid[i].kappa  = pow (10.0, logRMO)) < 0)
+      Exit (NEGATIVE_OPACITY, "Negative opacity %f for cell %i\n",
+            grid[i].kappa, i);
   }
 
   return SUCCESS;

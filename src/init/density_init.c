@@ -86,7 +86,7 @@ int reverse_sort (void)
 }
 
 // Read in the density from file and assign to the grid cells
-// TODO: GSL interpolation for an arbitrary number of cells
+// TODO: GSL interpolation for an arbitrary number of grid cells
 int density_from_file (char *filepath)
 {
   int i;
@@ -119,7 +119,7 @@ int density_from_file (char *filepath)
       continue;
 
     if (sscanf (line, "%lf %lf", &z_coord, &rho) != 2)
-      Exit (7, "Syntax error on line %i in density file\n", line_num);
+      Exit (FILE_IN_ERR, "Syntax error on line %i in density file\n", line_num);
 
     grid[cell].z = z_coord;
     grid[cell].rho = rho;

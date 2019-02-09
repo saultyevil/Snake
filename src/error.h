@@ -12,14 +12,19 @@
  *
  * ************************************************************************** */
 
-#define FILE_OPEN_ERR 1
-#define FILE_CLOSE_ERR 2
-#define MEM_ALLOC_ERR 3
-#define TABLE_BOUNDS 4
-#define UNKNOWN_PARAMETER 5
-#define NO_INPUT 6
-#define PAR_FILE_SYNTAX_ERR 7
-#define FILE_IN_ERR 8
-#define UNKNOWN_MODE 9
-#define INVALID_VALUE 10
-#define INVALID_TABLE 11
+enum ERRORS
+{
+  FILE_OPEN_ERR = 1,
+  FILE_CLOSE_ERR,
+  MEM_ALLOC_ERR,
+  TABLE_BOUNDS,
+  UNKNOWN_PARAMETER,
+  NO_INPUT,
+  PAR_FILE_SYNTAX_ERR,
+  FILE_IN_ERR,
+  UNKNOWN_MODE,
+  INVALID_VALUE,
+  INVALID_TABLE,
+  NO_LOG_RMO_RETURNED,
+  NEGATIVE_OPACITY
+};

@@ -51,6 +51,8 @@ int init_grid (void)
     standard_density_profile ();
   }
 
+  Log ("\t\t- Atmosphere height %e cm\n", grid[geo.nz_cells - 1].z);
+
   /*
    * Update the opacity and optical depth for each cell. We also initialise the
    * opacity table which is being used here

@@ -31,7 +31,7 @@ double eddington_approximation (double T_eff, double tau)
 // T_{eff}^4 = \frac{4T_{disk}^{4}}{3\tau_{tot} + 2}
 double update_Teff (void)
 {
-  return pow ((4 * pow (geo.T_disk, 4.0)) / (3 * (geo.tot_tau + 2.0 / 3.0)),
+  return pow ((4.0 * pow (geo.T_disk, 4.0)) / (3 * (geo.tot_tau + 2.0 / 3.0)),
               0.25);
 }
 
