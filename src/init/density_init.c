@@ -27,7 +27,7 @@ int allocate_1d_grid (void)
 
   mem_req = geo.nz_cells * sizeof (*grid);
 
-  if (!(grid = calloc (geo.nz_cells, sizeof (*grid))))
+  if (!(grid = calloc ((size_t) geo.nz_cells, sizeof (*grid))))
     Exit (MEM_ALLOC_ERR, "Could not allocate memory for grid of size %li\n",
           mem_req);
   Log ("\t\t- Allocated %1.2e bytes for %1.2e grid cells\n",
@@ -37,9 +37,9 @@ int allocate_1d_grid (void)
 }
 
 // Figure out the number of grid cell points in the density file
-int get_num_cells (void)
+size_t get_num_cells (void)
 {
-  int n_cells = 0;
+  size_t n_cells = 0;
   char line[LINE_LEN];
 
   while (fgets (line, LINE_LEN, density) != NULL)
@@ -61,7 +61,7 @@ int get_num_cells (void)
 // Reverse the order of an array -- assuming that it is ordered in some way
 int reverse_sort (void)
 {
-  int i, j;
+  size_t i, j;
   double *orig_z, *orig_rho;
 
   orig_z = calloc (geo.nz_cells, sizeof (*orig_z));
@@ -151,11 +151,13 @@ double density_profile_disk_height (double z)
 int standard_density_profile (void)
 {
   int i;
+  int ncells;
 
   get_double ("z_max", &geo.z_max);
   if (geo.z_max < 0)
     Exit (UNKNOWN_PARAMETER, "Invalid value for z_max: z_max >= 0\n");
-  get_int ("nz_cells", &geo.nz_cells);
+  get_int ("nz_cells", &ncells);
+  geo.nz_cells = (size_t) ncells;
   if (geo.nz_cells <= 0)
     Exit (UNKNOWN_PARAMETER, "Invalid value for nx_cells: nx_cells > 0\n");
   get_double ("irho", &geo.irho);

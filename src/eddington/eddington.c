@@ -39,7 +39,7 @@ double update_Teff (void)
 // geometry
 int find_vertical_tau (void)
 {
-  int i;
+  size_t i;
   double dz;
 
   Log_verbose ("\t\t- Calculating total vertical optical depth for cells\n");
@@ -65,7 +65,7 @@ int find_vertical_tau (void)
 // Update the temperature of the cell using the Eddington approximation
 int update_cell_temperatures (void)
 {
-  int i;
+  size_t i;
   double T_inter, Teff;
   double rtau = 0.0;
 

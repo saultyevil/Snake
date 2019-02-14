@@ -59,7 +59,7 @@ typedef struct Geometry
   char density_filepath[LINE_LEN];
   char opacity_table_filepath[LINE_LEN];
   int icycle;
-  int nz_cells;
+  size_t nz_cells;
   double tot_tau;
   double T_init;
   double T_disk;

@@ -233,10 +233,12 @@ int init_gsl_interp (void)
    * TODO: figure out why GSL isn't working how I want it to
    */
 
-  for (int y = 0; y < N_LOG_T; y++)
-    for (int x = 0; x < N_LOG_R; x++)
-      gsl_interp2d_set (interp, logRMO_table, x, y, logRMO_table[i2d (y, x)]);
+  size_t x, y;
 
+  for (y = 0; y < N_LOG_T; y++)
+    for (x = 0; x < N_LOG_R; x++)
+      gsl_interp2d_set (interp, logRMO_table, x, y, logRMO_table[
+                                                       i2d ((int) y, (int) x)]);
 
 /* ************************************************************************** */
 
