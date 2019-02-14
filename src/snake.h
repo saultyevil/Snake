@@ -13,8 +13,6 @@
  *
  * ************************************************************************** */
 
-#include "error.h"
-
 #define TRUE 1
 #define FALSE 0
 #define SUCCESS 0
@@ -36,6 +34,27 @@ int VERBOSITY;
 #define PLANAR "planar"
 #define SPHERICAL "spherical"
 #define OPAL_FILENAME "GN93hz"
+
+/*
+ * An enumerator storing the possible error return codes in Snake
+ */
+
+enum ERRORS
+{
+  FILE_OPEN_ERR = 1,
+  FILE_CLOSE_ERR,
+  MEM_ALLOC_ERR,
+  TABLE_BOUNDS,
+  UNKNOWN_PARAMETER,
+  NO_INPUT,
+  PAR_FILE_SYNTAX_ERR,
+  FILE_IN_ERR,
+  UNKNOWN_MODE,
+  INVALID_VALUE,
+  INVALID_TABLE,
+  NO_LOG_RMO_RETURNED,
+  NEGATIVE_OPACITY
+};
 
 /*
  * The structure to hold various settings and modes
