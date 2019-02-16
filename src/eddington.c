@@ -18,7 +18,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-#include "../snake.h"
+#include "snake.h"
 
 // The Eddington approximation for T^4
 double eddington_approximation (double T_eff, double tau)

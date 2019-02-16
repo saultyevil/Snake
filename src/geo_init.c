@@ -14,7 +14,7 @@
 
 #include <string.h>
 
-#include "../snake.h"
+#include "snake.h"
 
 // Initialise the geometry of the problem
 int init_geo (void)

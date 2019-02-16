@@ -14,7 +14,7 @@
 
 #include <math.h>
 
-#include "../snake.h"
+#include "snake.h"
 
 // Iterate over each grid cell and figure out how much the temperature has
 // changed between cycles

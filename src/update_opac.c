@@ -16,9 +16,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../snake.h"
-#include "../flib/flib.h"
-#include "../interp/2d_interp.h"
+#include "snake.h"
+#include "flib/flib.h"
+#include "2d_interp.h"
 
 // Update the opacity in each grid cell using the Rosseland Mean Opacity
 int update_cell_opacities (void)

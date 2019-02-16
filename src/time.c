@@ -14,7 +14,7 @@
 
 #include <time.h>
 
-#include "../snake.h"
+#include "snake.h"
 
 // Print the current time and date to screen
 int print_time_date (void)

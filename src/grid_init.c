@@ -15,7 +15,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-#include "../snake.h"
+#include "snake.h"
 
 // Get the grid parameters from file
 int get_temp_params (void)

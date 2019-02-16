@@ -18,7 +18,7 @@
 #include <gsl/gsl_interp2d.h>
 
 #include "2d_interp.h"
-#include "../snake.h"
+#include "snake.h"
 
 gsl_interp2d *interp;
 gsl_interp_accel *logR_accel, *logT_accel;

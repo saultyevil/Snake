@@ -52,4 +52,4 @@ double *logR_table, *logT_table, *logRMO_table;
 
 int init_gsl_interp (void);
 
-#include "../snake_functions.h"
+#include "snake_functions.h"
