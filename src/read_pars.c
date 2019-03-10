@@ -23,7 +23,8 @@ FILE *PAR_FILE_PTR;
 char par_file[LINE_LEN];
 
 // Prompt the user to input the path to a parameter file
-int find_par_file (char *file_path)
+void
+find_par_file (char *file_path)
 {
   int ierr;
   
@@ -31,45 +32,35 @@ int find_par_file (char *file_path)
   ierr = scanf ("%s", file_path);
   if (ierr == EOF)
     Exit (NO_INPUT, "Nothing entered for parameter file file path\n");
-  
-  return SUCCESS;
 }
 
 // Open up the parameter file
-int init_parameter_file (char *file_path)
+void
+init_parameter_file (char *file_path)
 {
   strcpy (par_file, file_path);
   if (!(PAR_FILE_PTR = fopen (file_path, "r")))
     Exit (FILE_OPEN_ERR, "Could not find parameter file %s\n", file_path);
   Log (" - Loaded parameter file %s\n\n", file_path);
-  
-  return SUCCESS;
 }
 
 // Close the parameter file
-int close_parameter_file (void)
+void
+close_parameter_file (void)
 {
   if (fclose (PAR_FILE_PTR))
     Exit (FILE_CLOSE_ERR, "Couldn't close parameter file %s\n", par_file);
   Log_verbose (" - Closed %s successfully\n", par_file);
-
-  return SUCCESS;
 }
 
 // Read a double from file
-int get_double (char *par_name, double *value)
+void
+get_double (char *par_name, double *value)
 {
   int line_num = 0;
   int found_par = FALSE;
-  char line[LINE_LEN], ini_par_name[LINE_LEN], par_sep[LINE_LEN],
-    par_value[LINE_LEN];
-  
-  /*
-   * Iterate through the lines in the file and attempt to find a match between
-   * the first column labels, ini_par_name, and the parameter name hoping
-   * to be set a value, par_name.
-   */
-  
+  char line[LINE_LEN], ini_par_name[LINE_LEN], par_sep[LINE_LEN], par_value[LINE_LEN];
+
   rewind (PAR_FILE_PTR);
   
   while (fgets (line, LINE_LEN, PAR_FILE_PTR) != NULL)
@@ -89,24 +80,16 @@ int get_double (char *par_name, double *value)
   
   if (!found_par)
     input_double (par_name, value);
-  
-  return SUCCESS;
 }
 
 // Read an integer from file
-int get_int (char *par_name, int *value)
+void
+get_int (char *par_name, int *value)
 {
   int line_num = 0;
   int found_par = FALSE;
-  char line[LINE_LEN], ini_par_name[LINE_LEN], par_sep[LINE_LEN],
-    par_value[LINE_LEN];
-  
-  /*
-   * Iterate through the lines in the file and attempt to find a match between
-   * the first column labels, ini_par_name, and the parameter name hoping
-   * to be set a value, par_name.
-   */
-  
+  char line[LINE_LEN], ini_par_name[LINE_LEN], par_sep[LINE_LEN], par_value[LINE_LEN];
+
   rewind (PAR_FILE_PTR);
   
   while (fgets (line, LINE_LEN, PAR_FILE_PTR) != NULL)
@@ -126,24 +109,16 @@ int get_int (char *par_name, int *value)
   
   if (!found_par)
     input_int (par_name, value);
-  
-  return SUCCESS;
 }
 
 // Read a string in from file
-int get_string  (char *par_name, char *value)
+void
+get_string  (char *par_name, char *value)
 {
   int line_num = 0;
   int found_par = FALSE;
-  char line[LINE_LEN], ini_par_name[LINE_LEN], par_sep[LINE_LEN],
-    par_value[LINE_LEN];
-  
-  /*
-   * Iterate through the lines in the file and attempt to find a match between
-   * the first column labels, ini_par_name, and the parameter name hoping
-   * to be set a value, par_name.
-   */
-  
+  char line[LINE_LEN], ini_par_name[LINE_LEN], par_sep[LINE_LEN], par_value[LINE_LEN];
+
   rewind (PAR_FILE_PTR);
   
   while (fgets (line, LINE_LEN, PAR_FILE_PTR) != NULL)
@@ -163,22 +138,14 @@ int get_string  (char *par_name, char *value)
   
   if (!found_par)
     input_string (par_name, value);
-  
-  return SUCCESS;
 }
 
 // Get an optional integer from file
-int get_optional_int (char *par_name, int *value)
+void
+get_optional_int (char *par_name, int *value)
 {
   int line_num = 0;
-  char line[LINE_LEN], ini_par_name[LINE_LEN], par_sep[LINE_LEN],
-    par_value[LINE_LEN];
-
-  /*
-   * Iterate through the lines in the file and attempt to find a match between
-   * the first column labels, ini_par_name, and the parameter name hoping
-   * to be set a value, par_name.
-   */
+  char line[LINE_LEN], ini_par_name[LINE_LEN], par_sep[LINE_LEN], par_value[LINE_LEN];
 
   rewind (PAR_FILE_PTR);
 
@@ -193,12 +160,11 @@ int get_optional_int (char *par_name, int *value)
     if (strcmp (par_name, ini_par_name) == 0)
       *value = atoi (par_value);
   }
-
-  return SUCCESS;
 }
 
 // Prompt the user to input a double
-int input_double (char *par_name, double *value)
+void
+input_double (char *par_name, double *value)
 {
   int ierr;
   char input_value[LINE_LEN];
@@ -208,12 +174,11 @@ int input_double (char *par_name, double *value)
   if (ierr == EOF)
     Exit (NO_INPUT, "Nothing entered for input par\n");
   *value = atof (input_value);
-  
-  return SUCCESS;
 }
 
 // Prompt the user to input an int
-int input_int (char *par_name, int *value)
+void
+input_int (char *par_name, int *value)
 {
   int ierr;
   char input_value[LINE_LEN];
@@ -223,12 +188,11 @@ int input_int (char *par_name, int *value)
   if (ierr == EOF)
     Exit (NO_INPUT, "Nothing entered for input par\n");
   *value = atoi (input_value);
-  
-  return SUCCESS;
 }
 
 // Prompt the user to input a string
-int input_string (char *par_name, char *value)
+void
+input_string (char *par_name, char *value)
 {
   int ierr;
   char input_value[LINE_LEN];
@@ -238,8 +202,6 @@ int input_string (char *par_name, char *value)
   if (ierr == EOF)
     Exit (NO_INPUT, "Nothing entered for input par\n");
   strcpy (value, input_value);
-  
-  return SUCCESS;
 }
 
 // Check if a parameter exists in the parameter file
@@ -248,12 +210,6 @@ int check_for_parameter (char *par_name)
   int line_num = 0;
   char line[LINE_LEN], ini_par_name[LINE_LEN], par_sep[LINE_LEN],
     par_value[LINE_LEN];
-
-  /*
-   * Iterate through the lines in the file and attempt to find a match between
-   * the first column labels, ini_par_name, and the parameter name hoping
-   * to be set a value, par_name.
-   */
 
   rewind (PAR_FILE_PTR);
 

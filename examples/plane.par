@@ -9,16 +9,16 @@ converge_fraction   :: 1.0
 # Grid parameters
 geo_type            :: planar
 nz_cells            :: 50
-z_max               :: 1e10
+z_max               :: 1e12
 T_init              :: 1.6e4
 T_disk              :: 1.6e4
-# irho                :: 1e-5
-rho_from_file       :: 1
+irho                :: 1e-3
+rho_from_file       :: 0
 density_file        :: data/density.dat
 
 # Tabulated opacity parameters
 # gsl_interpolation   :: bicubic
-opacity_table       :: GN93hz
+opacity_table       :: largerT_opacity.dat
 X                   :: 0.70
 Z                   :: 0.02
 

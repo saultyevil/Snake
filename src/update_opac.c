@@ -13,15 +13,14 @@
  * ************************************************************************** */
 
 #include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 #include "snake.h"
 #include "flib/flib.h"
-#include "2d_interp.h"
+#include "gsl_interp.h"
 
 // Update the opacity in each grid cell using the Rosseland Mean Opacity
-int update_cell_opacities (void)
+void
+update_cell_opacities (void)
 {
   int i;
   double logT, logR, logRMO;
@@ -58,15 +57,13 @@ int update_cell_opacities (void)
       {
         Log_error ("Cell %i: logR out of bounds: %f\n", grid[i].n, logR);
         Log_error ("\t%f < logR < %f\n", OP_MIN_LOG_R, OP_MAX_LOG_R);
-        Exit (TABLE_BOUNDS, "logR out of Opal table range for cell %i\n",
-              grid[i].n);
+        Exit (TABLE_BOUNDS, "logR out of Opal table range for cell %i\n", grid[i].n);
       }
       if ((logT < OP_MIN_LOG_T) || (logT > OP_MAX_LOG_T))
       {
         Log_error ("Cell %i: logT out of bounds: %f\n", grid[i].n, logT);
         Log_error ("\t%f < logT < %f\n", OP_MIN_LOG_T, OP_MAX_LOG_T);
-        Exit (TABLE_BOUNDS, "logT out of Opal table range for cell %i\n",
-              grid[i].n);
+        Exit (TABLE_BOUNDS, "logT out of Opal table range for cell %i\n", grid[i].n);
       }
 
       /*
@@ -131,6 +128,4 @@ int update_cell_opacities (void)
       Exit (NEGATIVE_OPACITY, "Negative opacity %f for cell %i\n",
             grid[i].kappa, i);
   }
-
-  return SUCCESS;
 }

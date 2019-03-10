@@ -17,7 +17,8 @@
 #include "snake.h"
 
 // Print the current time and date to screen
-int print_time_date (void)
+void
+print_time_date (void)
 {
   char *c_time_string;
   time_t current_time;
@@ -26,12 +27,11 @@ int print_time_date (void)
   c_time_string = ctime (&current_time);
   
   Log (" Current time: %s", c_time_string);
-  
-  return SUCCESS;
 }
 
 // Create a timespec structure for the current time
-struct timespec get_time (void)
+struct timespec
+get_time (void)
 {
   struct timespec time;
 
@@ -41,7 +41,8 @@ struct timespec get_time (void)
 }
 
 // Print the time difference between two timespec structs
-int print_duration (struct timespec start_time, char *message)
+void
+print_duration (struct timespec start_time, char *message)
 {
   double td;
   struct timespec end_time;
@@ -50,6 +51,4 @@ int print_duration (struct timespec start_time, char *message)
   td = (end_time.tv_sec - start_time.tv_sec) +
                                 (end_time.tv_nsec - start_time.tv_nsec) * 1e-9;
   Log ("%s %f seconds\n", message, td);
-
-  return SUCCESS;
 }

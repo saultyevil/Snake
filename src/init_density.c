@@ -21,23 +21,21 @@
 FILE *density;
 
 // Allocate memory for the grid structure
-int allocate_1d_grid (void)
+void
+allocate_1d_grid (void)
 {
   long mem_req;
 
   mem_req = geo.nz_cells * sizeof (*grid);
 
   if (!(grid = calloc ((size_t) geo.nz_cells, sizeof (*grid))))
-    Exit (MEM_ALLOC_ERR, "Could not allocate memory for grid of size %li\n",
-          mem_req);
-  Log ("\t\t- Allocated %1.2e bytes for %1.2e grid cells\n",
-       (double) mem_req, (double) geo.nz_cells);
-
-  return SUCCESS;
+    Exit (MEM_ALLOC_ERR, "Could not allocate memory for grid of size %li\n", mem_req);
+  Log ("\t\t- Allocated %1.2e bytes for %1.2e grid cells\n", (double) mem_req, (double) geo.nz_cells);
 }
 
 // Figure out the number of grid cell points in the density file
-size_t get_num_cells (void)
+size_t
+get_num_cells (void)
 {
   size_t n_cells = 0;
   char line[LINE_LEN];
@@ -59,9 +57,10 @@ size_t get_num_cells (void)
 }
 
 // Reverse the order of an array -- assuming that it is ordered in some way
-int reverse_sort (void)
+void
+reverse_sort (void)
 {
-  size_t i, j;
+  int i, j;
   double *orig_z, *orig_rho;
 
   orig_z = calloc (geo.nz_cells, sizeof (*orig_z));
@@ -73,7 +72,7 @@ int reverse_sort (void)
     orig_rho[i] = grid[i].rho;
   }
 
-  for (i = geo.nz_cells - 1, j = 0; i >=  0; i--, j++)
+  for (i = geo.nz_cells - 1, j = 0; i >= 0; i--, j++)
   {
     grid[j].z = orig_z[i];
     grid[j].rho = orig_rho[i];
@@ -81,13 +80,12 @@ int reverse_sort (void)
 
   free (orig_z);
   free (orig_rho);
-
-  return SUCCESS;
 }
 
 // Read in the density from file and assign to the grid cells
 // TODO: GSL interpolation for an arbitrary number of grid cells
-int density_from_file (char *filepath)
+void
+density_from_file (char *filepath)
 {
   int i;
   int cell = 0, line_num = 0;
@@ -136,8 +134,6 @@ int density_from_file (char *filepath)
 
   if (fclose (density))
     Exit (FILE_CLOSE_ERR, "Unable to close density file %s\n", filepath);
-
-  return SUCCESS;
 }
 
 // A density equation I found in some lecture notes
@@ -148,7 +144,8 @@ double density_profile_disk_height (double z)
 
 // Generate a density profile based on a density equation I found in some
 // lecture notes
-int standard_density_profile (void)
+void
+standard_density_profile (void)
 {
   int i;
   int ncells;
@@ -173,6 +170,4 @@ int standard_density_profile (void)
     grid[i].z = i * geo.hz;
     grid[i].rho = density_profile_disk_height (grid[i].z);
   }
-
-  return SUCCESS;
 }

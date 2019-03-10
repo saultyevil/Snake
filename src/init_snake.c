@@ -18,7 +18,8 @@
 #include "snake.h"
 
 // Initialise various default various for global parameters which are read in
-int init_snake (void)
+void
+init_snake (void)
 {
   /*
    * System parameters
@@ -45,6 +46,4 @@ int init_snake (void)
   geo.X = 0.74;
   geo.Z = 0.02;
   geo.Y = 1.0 - geo.X - geo.Y;
-
-  return SUCCESS;
 }

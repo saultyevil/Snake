@@ -17,7 +17,8 @@
 #include "snake.h"
 
 // Initialise the geometry of the problem
-int init_geo (void)
+void
+init_geo (void)
 {
   /*
    * Get the grid and model types and call the appropriate grid initialisation
@@ -33,6 +34,4 @@ int init_geo (void)
   }
   else
     Exit (UNKNOWN_PARAMETER, "Invalid choice %s for geo_type\n", geo.geo_type);
-
-  return SUCCESS;
 }

@@ -17,14 +17,15 @@
 #include <unistd.h>
 #include <gsl/gsl_interp2d.h>
 
-#include "2d_interp.h"
+#include "gsl_interp.h"
 #include "snake.h"
 
 gsl_interp2d *interp;
 gsl_interp_accel *logR_accel, *logT_accel;
 
 // Allocate memory for the opacity tables
-int allocate_opacity_table (void)
+void
+allocate_opacity_table (void)
 {
   /*
    * Allocate a temporary buffer to use when scanf is used to read in the
@@ -59,21 +60,19 @@ int allocate_opacity_table (void)
 
   if (!(logRMO_table = calloc (N_COLS * N_ROWS, sizeof (*logRMO_table))))
     Exit (MEM_ALLOC_ERR, "Unable to allocate memory for logRMO_table\n");
-
-/* ************************************************************************** */
-
-  return SUCCESS;
 }
 
 // Check that the 2d opacity table is the correct dimensions, i.e. it has been
 // generated from the included Python script
-int check_2d_opact_table (void)
+int
+check_2d_opact_table (void)
 {
   return SUCCESS;
 }
 
 // Read the 2D opacity table into memory
-int read_2d_opact_table (char *file_path)
+void
+read_2d_opact_table (char *file_path)
 {
   int i, j;
   int n, col, row, skip_lines;
@@ -84,8 +83,7 @@ int read_2d_opact_table (char *file_path)
   Log ("\t- Opacity table %s opened\n", file_path);
 
   if (check_2d_opact_table ())
-    Exit (INVALID_TABLE, "Don't know how to read opacity table %s",
-          geo.opacity_table_filepath);
+    Exit (INVALID_TABLE, "Don't know how to read opacity table %s", geo.opacity_table_filepath);
 
   allocate_opacity_table ();
 
@@ -104,7 +102,8 @@ int read_2d_opact_table (char *file_path)
 
   /*
    * Read the data into opacity data array - we are assuming here that memory
-   * has already been allocated for the array
+   * has already been allocated for the array. NOTE that buffer is defined
+   * in the header file gsl_interp.h.....
    */
 
   col = 0;
@@ -155,12 +154,11 @@ int read_2d_opact_table (char *file_path)
       Log ("\n");
     }
   #endif
-
-  return SUCCESS;
 }
 
 // Initialise the GSL interpolation routines
-int init_gsl_interp (void)
+void
+init_gsl_interp (void)
 {
   const gsl_interp2d_type *T = gsl_interp2d_bilinear;
 
@@ -208,8 +206,7 @@ int init_gsl_interp (void)
    * Initialise the interpolation routine
    */
 
-  gsl_interp2d_init (interp, logR_table, logT_table, logRMO_table, N_LOG_R,
-                     N_LOG_T);
+  gsl_interp2d_init (interp, logR_table, logT_table, logRMO_table, N_LOG_R, N_LOG_T);
 
   #ifdef DEBUG
     Log ("logRMO within gsl\n");
@@ -236,39 +233,37 @@ int init_gsl_interp (void)
   size_t x, y;
 
   for (y = 0; y < N_LOG_T; y++)
+  {
     for (x = 0; x < N_LOG_R; x++)
-      gsl_interp2d_set (interp, logRMO_table, x, y, logRMO_table[
-                                                       i2d ((int) y, (int) x)]);
-
-/* ************************************************************************** */
-
-  return SUCCESS;
+    {
+      gsl_interp2d_set (interp, logRMO_table, x, y, logRMO_table[i2d ((int) y, (int) x)]);
+    }
+  }
 }
 
 // Clean up the opacity tables
-int clean_up_opac_tables (void)
+void
+clean_up_opac_tables (void)
 {
   free (logR_table);
   free (logT_table);
   free (logRMO_table);
   Log_verbose (" - Opacity table cleaned up successfully\n");
-
-  return SUCCESS;
 }
 
 // Clean up the GSL stuff
-int clean_up_gsl (void)
+void
+clean_up_gsl (void)
 {
   gsl_interp2d_free (interp);
   gsl_interp_accel_free (logR_accel);
   gsl_interp_accel_free (logT_accel);
   Log_verbose (" - GSL routines cleaned up successfully\n");
-
-  return SUCCESS;
 }
 
 // Initialise the opacity table which is going to be used
-int init_opacity_table (void)
+void
+init_opacity_table (void)
 {
   /*
    * If the opacity table is the default Opal table, then, for now, we will
@@ -302,15 +297,11 @@ int init_opacity_table (void)
   }
   else
     Exit (UNKNOWN_MODE, "Unknown opacity mode\n");
-
-  return SUCCESS;
 }
 
 // Interpolate using the 2D GSL interpolation routines
-int opac_2d (double logT, double logR, double *logRMO)
+void
+opac_2d (double logT, double logR, double *logRMO)
 {
-  *logRMO = gsl_interp2d_eval (interp, logR_table, logT_table, logRMO_table,
-                               logR, logT, logR_accel, logT_accel);
-
-  return SUCCESS;
+  *logRMO = gsl_interp2d_eval (interp, logR_table, logT_table, logRMO_table, logR, logT, logR_accel, logT_accel);
 }

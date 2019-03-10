@@ -17,7 +17,8 @@
 
 #include "snake.h"
 
-int main (int argc, char **argv)
+int
+main (int argc, char **argv)
 {
   struct timespec start_time;
   char par_file_path[LINE_LEN];
@@ -50,14 +51,13 @@ int main (int argc, char **argv)
   else if (argc == 2)
     strcpy (par_file_path, argv[1]);
   else
-    Exit (1, "Too many arguments provided\n");
+    Exit (FILE_IN_ERR, "Too many arguments provided\n");
   init_parameter_file (par_file_path);
 
   get_optional_int ("verbosity", &verbosity);
   VERBOSITY = verbosity;
   if ((VERBOSITY != FALSE) && (VERBOSITY != TRUE))
-    Exit (UNKNOWN_PARAMETER,
-          "Invalid value for verbosity: verbosity should be 0 or 1\n");
+    Exit (UNKNOWN_PARAMETER, "Invalid value for verbosity: verbosity should be 0 or 1\n");
 
   Log (" - Beginning initialisation routines\n");
   init_snake ();

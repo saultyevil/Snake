@@ -50,6 +50,6 @@ double *logR_table, *logT_table, *logRMO_table;
  * This function is defined here because so it isn't used implicitly
  */
 
-int init_gsl_interp (void);
+void init_gsl_interp (void);
 
 #include "snake_functions.h"

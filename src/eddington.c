@@ -21,7 +21,8 @@
 #include "snake.h"
 
 // The Eddington approximation for T^4
-double eddington_approximation (double T_eff, double tau)
+double
+eddington_approximation (double T_eff, double tau)
 {
   return 0.75 * pow (T_eff, 4.0) * (tau + (2.0 / 3.0));
 }
@@ -29,7 +30,8 @@ double eddington_approximation (double T_eff, double tau)
 // A slight rearrangement of the Eddington approximation to act as our boundary
 // condition to calculate T_eff at the bottom of the Eddington geometry
 // T_{eff}^4 = \frac{4T_{disk}^{4}}{3\tau_{tot} + 2}
-double update_Teff (void)
+double
+update_Teff (void)
 {
   return pow ((4.0 * pow (geo.T_disk, 4.0)) / (3 * (geo.tot_tau + 2.0 / 3.0)),
               0.25);
@@ -37,7 +39,8 @@ double update_Teff (void)
 
 // Find the total amount of optical depth from bottom to top of the Eddington
 // geometry
-int find_vertical_tau (void)
+void
+find_vertical_tau (void)
 {
   size_t i;
   double dz;
@@ -58,12 +61,11 @@ int find_vertical_tau (void)
   }
 
   Log ("\t\t- Total vertical optical depth %e\n", geo.tot_tau);
-
-  return SUCCESS;
 }
 
 // Update the temperature of the cell using the Eddington approximation
-int update_cell_temperatures (void)
+void
+update_cell_temperatures (void)
 {
   size_t i;
   double T_inter, Teff;
@@ -94,12 +96,11 @@ int update_cell_temperatures (void)
       Log_error ("\t- rtau < tot_tau\n");
     Log_error ("\t- rtau = %e tot_tau = %e\n", rtau, geo.tot_tau);
   }
-
-  return SUCCESS;
 }
 
 // Calculate the hydrogen column density
-int calculate_column_density (void)
+void
+calculate_column_density (void)
 {
   int i;
   double *nh, *ne;
@@ -139,12 +140,11 @@ int calculate_column_density (void)
 
   free (nh);
   free (ne);
-
-  return SUCCESS;
 }
 
 // Main controlling function for the Eddington algorithm
-int eddington_iterations (void)
+void
+eddington_iterations (void)
 {
   int n_iters = 0;
   int converged = FALSE;
@@ -155,7 +155,7 @@ int eddington_iterations (void)
 
   get_double ("converge_fraction", &converge_fraction);
   if (converge_fraction <= 0)
-    Exit (2, "Invalid value for converge_fraction: converge_fraction > 0");
+    Exit (UNKNOWN_PARAMETER, "Invalid value for converge_fraction: converge_fraction > 0");
 
   edd_start = get_time ();
 
@@ -179,6 +179,4 @@ int eddington_iterations (void)
 
   Log ("\n - Cells converged in %i iterations in", n_iters);
   print_duration (edd_start, "");
-
-  return SUCCESS;
 }
