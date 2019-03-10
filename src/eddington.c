@@ -42,7 +42,7 @@ update_Teff (void)
 void
 find_vertical_tau (void)
 {
-  size_t i;
+  int i;
   double dz;
 
   Log_verbose ("\t\t- Calculating total vertical optical depth for cells\n");
@@ -67,7 +67,7 @@ find_vertical_tau (void)
 void
 update_cell_temperatures (void)
 {
-  size_t i;
+  int i;
   double T_inter, Teff;
   double rtau = 0.0;
 
@@ -108,8 +108,8 @@ calculate_column_density (void)
   double m_proton = 1.6726219e-24;  // grams
   double m_electon = 9.10938e-28;   // grams
 
-  nh = calloc (geo.nz_cells, sizeof (*nh));
-  ne = calloc (geo.nz_cells, sizeof (*ne));
+  nh = calloc ((size_t) geo.nz_cells, sizeof (*nh));
+  ne = calloc ((size_t) geo.nz_cells, sizeof (*ne));
 
   for (i = 0; i < geo.nz_cells; i++)
   {
